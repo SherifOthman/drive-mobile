@@ -1,6 +1,5 @@
 import { useMe } from "@/src/features/profile/profile-queries";
 import { Spinner, Text } from "heroui-native";
-import { Image } from "expo-image";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -24,11 +23,6 @@ export default function Home() {
       <Text.Heading type="h3" weight="bold">
         مرحباً
       </Text.Heading>
-
-      <Image
-        source={data?.ImageUrl ?? require("@/assets/images/icon.png")}
-        style={{ width: 80, height: 80, borderRadius: 40 }}
-      />
 
       <Text.Paragraph weight="semibold">{data?.fullName}</Text.Paragraph>
       <Text.Paragraph type="body-sm" color="muted">

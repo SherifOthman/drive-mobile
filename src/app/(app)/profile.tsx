@@ -1,10 +1,11 @@
+import { ThemeToggle } from "@/src/components/ThemeToggle";
 import { useMe } from "@/src/features/profile/profile-queries";
 import { useAuthStore } from "@/src/stores/auth-store";
-import { Button, Spinner, Text } from "heroui-native";
+import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { router } from "expo-router";
+import { Button, Spinner, Text } from "heroui-native";
 import { Image, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 export default function Profile() {
   const insets = useSafeAreaInsets();
@@ -25,14 +26,16 @@ export default function Profile() {
     );
   }
 
+  console.log(data);
+
   return (
     <View
-      className="flex-1 items-center justify-center px-6 gap-4"
+      className="flex-1 items-center justify-center px-6 gap-4 bg-background"
       style={{ paddingTop: insets.top, paddingBottom: insets.bottom }}
     >
-      {data?.ImageUrl && (
+      {data?.imageUrl && (
         <Image
-          source={{ uri: data.ImageUrl }}
+          source={{ uri: data.imageUrl }}
           style={{ width: 96, height: 96, borderRadius: 48 }}
         />
       )}
@@ -54,6 +57,8 @@ export default function Profile() {
       >
         <Button.Label>تسجيل الخروج</Button.Label>
       </Button>
+
+      <ThemeToggle />
     </View>
   );
 }

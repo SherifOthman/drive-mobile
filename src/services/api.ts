@@ -10,6 +10,8 @@ export const api = axios.create({
   baseURL: API_URL,
 });
 
+let refreshPromise: Promise<void> | null = null;
+
 api.interceptors.request.use(async (config) => {
   const token = useAuthStore.getState().accessToken;
   if (token) {
@@ -21,8 +23,26 @@ api.interceptors.request.use(async (config) => {
 api.interceptors.response.use(
   (res) => res,
   async (err) => {
-    if (err.response?.status === 401) {
+    const originalRequest = err.config;
+
+    if (err.response?.status !== 401 || originalRequest._retry) {
+      return Promise.reject(err);
+    }
+
+    if (refreshPromise) {
+      await refreshPromise;
+      originalRequest.headers.Authorization = `Bearer ${useAuthStore.getState().accessToken}`;
+      return api(originalRequest);
+    }
+
+    originalRequest._retry = true;
+
+    refreshPromise = (async () => {
       const store = useAuthStore.getState();
+
+      if (!store.refreshToken) {
+        throw new Error("No refresh token available");
+      }
 
       const res = await axios.post(`${API_URL}/auth/refresh-token`, {
         accessToken: store.accessToken,
@@ -30,10 +50,17 @@ api.interceptors.response.use(
       });
 
       await store.setSession(res.data.accessToken, res.data.refreshToken);
+    })();
 
-      err.config.headers.Authorization = `Bearer ${res.data.accessToken}`;
-      return api.request(err.config);
+    try {
+      await refreshPromise;
+      originalRequest.headers.Authorization = `Bearer ${useAuthStore.getState().accessToken}`;
+      return api(originalRequest);
+    } catch {
+      useAuthStore.getState().logout();
+      throw err;
+    } finally {
+      refreshPromise = null;
     }
-    return Promise.reject(err);
   },
 );

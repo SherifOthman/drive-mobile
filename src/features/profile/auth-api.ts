@@ -3,7 +3,7 @@ import { api } from "@/src/services/api";
 type User = {
   email: string;
   fullName: string;
-  ImageUrl: string | null;
+  imageUrl: string | null;
 };
 
 export const getMe = async () => {
