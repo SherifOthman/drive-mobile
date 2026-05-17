@@ -1,7 +1,7 @@
 import { env } from "@/src/config/env";
 import { useAuthStore } from "@/src/stores/auth-store";
 import { router } from "expo-router";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import {
   GoogleSignin,
   statusCodes,
@@ -11,7 +11,6 @@ import { loginWithGoogle } from "./auth-api";
 GoogleSignin.configure({
   webClientId: env.googleWebClientId,
   iosClientId: env.googleIosClientId,
-  offlineAccess: true,
 });
 
 export function useGoogleLogin() {
@@ -19,15 +18,12 @@ export function useGoogleLogin() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    GoogleSignin.signOut();
-  }, []);
-
   const signIn = useCallback(async () => {
     setIsLoading(true);
     setError(null);
+
     try {
-      await GoogleSignin.hasPlayServices();
+      await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
       const signInResult = await GoogleSignin.signIn();
 
       if (signInResult.type !== "success" || !signInResult.data.idToken) {
@@ -39,11 +35,11 @@ export function useGoogleLogin() {
       router.replace("/(app)/home");
     } catch (err: any) {
       if (err.code === statusCodes.SIGN_IN_CANCELLED) {
-        console.log("User cancelled sign in");
+        setError(null);
       } else if (err.code === statusCodes.IN_PROGRESS) {
-        console.log("Sign in already in progress");
+        setError("Sign in already in progress");
       } else if (err.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        setError("Google Play Services not available");
+        setError("Google Play Services not available or needs update");
       } else {
         console.error("Sign in error:", err);
         setError(err?.response?.data?.message || err?.message || "Login failed");

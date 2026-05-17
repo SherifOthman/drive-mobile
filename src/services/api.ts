@@ -1,10 +1,8 @@
 import axios from "axios";
 import { API_RUL } from "../config/constants";
 import { useAuthStore } from "../stores/auth-store";
-import { Platform } from "react-native";
 
-const API_URL =
-  Platform.OS === "android" ? "http://localhost:5170" : API_RUL || "http://localhost:5170";
+const API_URL = API_RUL || "http://localhost:5170";
 
 export const api = axios.create({
   baseURL: API_URL,
