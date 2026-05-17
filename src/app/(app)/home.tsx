@@ -1,29 +1,39 @@
 import { useMe } from "@/src/features/profile/profile-queries";
-import { Spinner } from "heroui-native";
-import { Image, Text, View } from "react-native";
+import { Spinner, Text } from "heroui-native";
+import { Image } from "expo-image";
+import { View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Home() {
+  const insets = useSafeAreaInsets();
   const { data, isLoading } = useMe();
 
-  if (isLoading)
+  if (isLoading) {
     return (
-      <View>
-        <Spinner />;
+      <View className="flex-1 items-center justify-center">
+        <Spinner />
       </View>
     );
+  }
 
   return (
-    <View className="flex-1 items-center justify-center">
-      <Text className="text-xl">Welcome</Text>
+    <View
+      className="flex-1 items-center justify-center gap-3"
+      style={{ paddingTop: insets.top }}
+    >
+      <Text.Heading type="h3" weight="bold">
+        مرحباً
+      </Text.Heading>
 
-      <Text>{data?.fullName}</Text>
+      <Image
+        source={data?.ImageUrl ?? require("@/assets/images/icon.png")}
+        style={{ width: 80, height: 80, borderRadius: 40 }}
+      />
 
-      {data?.ImageUrl && (
-        <Image
-          source={{ uri: data.ImageUrl }}
-          className="w-20 h-20 rounded-full mt-4"
-        />
-      )}
+      <Text.Paragraph weight="semibold">{data?.fullName}</Text.Paragraph>
+      <Text.Paragraph type="body-sm" color="muted">
+        {data?.email}
+      </Text.Paragraph>
     </View>
   );
 }
