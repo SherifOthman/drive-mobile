@@ -30,6 +30,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
   logout: async () => {
     await SecureStore.deleteItemAsync("accessToken");
     await SecureStore.deleteItemAsync("refreshToken");
-    set({ accessToken: null, refreshToken: null, user: null });
+    set({ accessToken: null, refreshToken: null });
   },
 }));

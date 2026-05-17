@@ -10,6 +10,8 @@ export default function Login() {
   const insets = useSafeAreaInsets();
   const setSession = useAuthStore((s) => s.setSession);
 
+  function handleLogin() {}
+
   return (
     <View
       className="bg-background flex-1 px-6  items-center"
@@ -24,7 +26,7 @@ export default function Login() {
         resizeMode="cover"
       />
       <Button
-        onPress={() => {}}
+        onPress={handleLogin}
         className="w-full mt-24"
         size="md"
         variant="tertiary"
