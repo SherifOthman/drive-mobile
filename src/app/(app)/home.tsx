@@ -9,7 +9,7 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <View className="flex-1 items-center justify-center">
+      <View className="flex-1 items-center justify-center ">
         <Spinner />
       </View>
     );
@@ -17,7 +17,7 @@ export default function Home() {
 
   return (
     <View
-      className="flex-1 items-center justify-center gap-3"
+      className="flex-1 items-center justify-center gap-3 bg-background"
       style={{ paddingTop: insets.top }}
     >
       <Text.Heading type="h3" weight="bold">

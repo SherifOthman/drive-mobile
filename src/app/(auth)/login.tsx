@@ -1,42 +1,106 @@
-import { useGoogleLogin } from "@/src/features/auth/use-google-login";
-import { Button, Text } from "heroui-native";
+﻿import { useGoogleLogin } from "@/src/features/auth/use-google-login";
+import { Button, Spinner, Text, useThemeColor } from "heroui-native";
 import { Image, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Login() {
   const insets = useSafeAreaInsets();
   const { signIn, isLoading, error } = useGoogleLogin();
+  const [accent, accentForeground] = useThemeColor(["accent", "accent-foreground"]);
 
   return (
     <View
-      className="bg-background flex-1 px-6 items-center"
-      style={{ paddingTop: insets.top }}
+      className="bg-background flex-1"
+      style={{ paddingTop: insets.top, paddingBottom: insets.bottom }}
     >
-      <Text.Heading className="font-bold mt-4 ">احجزلى</Text.Heading>
+      {/* Top section — brand + illustration */}
+      <View className="flex-1 items-center justify-center px-8 gap-6">
+        {/* Logo / brand mark */}
+        <View className="items-center gap-2">
+          <View
+            className="w-20 h-20 rounded-3xl bg-accent items-center justify-center"
+            style={{ shadowColor: accent, shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.35, shadowRadius: 16, elevation: 12 }}
+          >
+            <Text style={{ fontSize: 40 }}>🩺</Text>
+          </View>
+          <Text.Heading
+            type="h1"
+            weight="bold"
+            align="center"
+            className="text-foreground mt-2"
+          >
+            نبض
+          </Text.Heading>
+          <Text.Paragraph
+            type="body-sm"
+            color="muted"
+            align="center"
+          >
+            Pulse
+          </Text.Paragraph>
+        </View>
 
-      <Image
-        source={require("@/assets/images/city-driver.png")}
-        style={{ width: 300, height: 300 }}
-        resizeMode="cover"
-      />
+        {/* Feature highlights */}
+        <View className="gap-3 w-full mt-4">
+          {[
+            { icon: "👨‍⚕️", text: "احجز مع أفضل الأطباء" },
+            { icon: "📅", text: "مواعيد سريعة وسهلة" },
+            { icon: "��", text: "متابعة صحتك في مكان واحد" },
+          ].map((item, i) => (
+            <View
+              key={i}
+              className="flex-row-reverse items-center gap-3 bg-surface-secondary rounded-2xl px-4 py-3"
+            >
+              <Text style={{ fontSize: 22 }}>{item.icon}</Text>
+              <Text.Paragraph type="body-sm" weight="medium" align="right" className="flex-1">
+                {item.text}
+              </Text.Paragraph>
+            </View>
+          ))}
+        </View>
+      </View>
 
-      <Button
-        isDisabled={isLoading}
-        onPress={signIn}
-        className="w-full mt-24"
-        size="md"
-        variant="tertiary"
-      >
-        <Image
-          source={require("@/assets/icons/google-icon.png")}
-          style={{ width: 25, height: 25, marginRight: 8 }}
-        />
-        <Button.Label className="font-bold">تسجيل الدخول بجوجل</Button.Label>
-      </Button>
+      {/* Bottom section — CTA */}
+      <View className="px-6 pb-8 gap-4">
+        {/* Error */}
+        {error && (
+          <View className="bg-danger/10 rounded-2xl px-4 py-3">
+            <Text.Paragraph type="body-sm" align="center" className="text-danger">
+              {error}
+            </Text.Paragraph>
+          </View>
+        )}
 
-      {error && (
-        <Text className="text-danger mt-4 text-center">{error}</Text>
-      )}
+        {/* Google sign-in button */}
+        <Button
+          variant="primary"
+          size="lg"
+          isDisabled={isLoading}
+          onPress={signIn}
+          className="w-full"
+          feedbackVariant="scale-ripple"
+        >
+          {isLoading ? (
+            <Spinner color={accentForeground} />
+          ) : (
+            <>
+              <Image
+                source={require("@/assets/icons/google-icon.png")}
+                style={{ width: 22, height: 22 }}
+                resizeMode="contain"
+              />
+              <Button.Label weight="bold">
+                تسجيل الدخول بجوجل
+              </Button.Label>
+            </>
+          )}
+        </Button>
+
+        {/* Terms */}
+        <Text.Paragraph type="body-xs" color="muted" align="center">
+          بالمتابعة، أنت توافق على شروط الاستخدام وسياسة الخصوصية
+        </Text.Paragraph>
+      </View>
     </View>
   );
 }
