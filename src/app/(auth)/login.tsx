@@ -43,9 +43,9 @@ export default function Login() {
         {/* Feature highlights */}
         <View className="gap-3 w-full mt-4">
           {[
-            { icon: "👨‍⚕️", text: "احجز مع أفضل الأطباء" },
-            { icon: "📅", text: "مواعيد سريعة وسهلة" },
-            { icon: "��", text: "متابعة صحتك في مكان واحد" },
+            { icon: "👨‍⚕️", text: "أطباء, صيدليات, معامل وأشعة" },
+            { icon: "⏰", text: "مواعيد العمل وأوقات الزيارة" },
+            { icon: "⭐", text: "تقييمات وتعليقات المرضى" },
           ].map((item, i) => (
             <View
               key={i}
