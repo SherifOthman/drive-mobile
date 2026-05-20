@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { Avatar, PressableFeedback, Text, useThemeColor } from "heroui-native";
+import { Avatar, PressableFeedback, Text } from "heroui-native";
 import { Alert, View } from "react-native";
 
 type Props = {
@@ -10,7 +10,6 @@ type Props = {
 };
 
 export function AvatarPicker({ avatarUri, fallbackName, onChangeImage }: Props) {
-  const [accent] = useThemeColor(["accent"]);
 
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -32,7 +31,7 @@ export function AvatarPicker({ avatarUri, fallbackName, onChangeImage }: Props) 
   return (
     <View className="items-center gap-3">
       <View>
-        <Avatar size="lg" style={{ width: 100, height: 100, borderRadius: 50 }}>
+        <Avatar size="lg" className="w-[100px] h-[100px] rounded-full">
           {avatarUri ? <Avatar.Image source={{ uri: avatarUri }} /> : null}
           <Avatar.Fallback delayMs={200}>
             {fallbackName?.charAt(0) ?? "؟"}
@@ -41,18 +40,8 @@ export function AvatarPicker({ avatarUri, fallbackName, onChangeImage }: Props) 
 
         <PressableFeedback
           onPress={pickImage}
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            width: 32,
-            height: 32,
-            borderRadius: 16,
-            backgroundColor: accent,
-            alignItems: "center",
-            justifyContent: "center",
-            elevation: 3,
-          }}
+          className="absolute bottom-0 left-0 w-8 h-8 rounded-full bg-accent items-center justify-center"
+          style={{ elevation: 3 }}
         >
           <Ionicons name="camera" size={16} color="white" />
         </PressableFeedback>

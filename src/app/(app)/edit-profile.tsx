@@ -105,7 +105,7 @@ export default function EditProfile() {
           </Text.Heading>
         </View>
 
-        <View style={{ width: 36 }} />
+        <View className="w-9" />
       </View>
 
       <ScrollView

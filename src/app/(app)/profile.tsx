@@ -33,11 +33,10 @@ export default function Profile() {
 
   return (
     <ScrollView
-      className="flex-1 bg-background"
+      className="flex-1 bg-background px-5"
       contentContainerStyle={{
         paddingTop: insets.top + 16,
         paddingBottom: insets.bottom + 100,
-        paddingHorizontal: 20,
         alignItems: "center",
         gap: 16,
       }}

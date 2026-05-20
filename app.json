@@ -1,4 +1,4 @@
-﻿{
+{
   "expo": {
     "name": "نبض",
     "slug": "pulse",
@@ -7,7 +7,6 @@
     "icon": "./assets/images/icon.png",
     "scheme": "pulse",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.sheriff.pulse"
@@ -20,7 +19,6 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
     "web": {
@@ -54,7 +52,8 @@
         {
           "iosUrlScheme": "com.googleusercontent.apps.537064981983-8h8ji2t445j6tf4bds0bn3v85qhikpgn"
         }
-      ]
+      ],
+      "expo-image"
     ],
     "experiments": {
       "typedRoutes": true,

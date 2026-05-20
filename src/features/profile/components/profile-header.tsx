@@ -11,7 +11,7 @@ export function ProfileHeader({ imageUrl, fullName, email }: Props) {
   return (
     <View className="items-center mt-4">
       <View>
-        <Avatar size="lg" style={{ width: 112, height: 112, borderRadius: 56 }}>
+        <Avatar size="lg" className="w-[112px] h-[112px] rounded-full">
           {imageUrl ? <Avatar.Image source={{ uri: imageUrl }} /> : null}
           <Avatar.Fallback delayMs={200}>
             {fullName?.charAt(0) ?? "؟"}
