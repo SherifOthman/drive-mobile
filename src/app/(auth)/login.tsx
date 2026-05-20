@@ -1,12 +1,16 @@
-﻿import { useGoogleLogin } from "@/src/features/auth/use-google-login";
+﻿import { GoogleIcon } from "@/src/components/GoogleIcon";
+import { useGoogleLogin } from "@/src/features/auth/use-google-login";
 import { Button, Spinner, Text, useThemeColor } from "heroui-native";
-import { Image, View } from "react-native";
+import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Login() {
   const insets = useSafeAreaInsets();
   const { signIn, isLoading, error } = useGoogleLogin();
-  const [accent, accentForeground] = useThemeColor(["accent", "accent-foreground"]);
+  const [accent, accentForeground] = useThemeColor([
+    "accent",
+    "accent-foreground",
+  ]);
 
   return (
     <View
@@ -19,7 +23,13 @@ export default function Login() {
         <View className="items-center gap-2">
           <View
             className="w-20 h-20 rounded-3xl bg-accent items-center justify-center"
-            style={{ shadowColor: accent, shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.35, shadowRadius: 16, elevation: 12 }}
+            style={{
+              shadowColor: accent,
+              shadowOffset: { width: 0, height: 8 },
+              shadowOpacity: 0.35,
+              shadowRadius: 16,
+              elevation: 12,
+            }}
           >
             <Text style={{ fontSize: 40 }}>🩺</Text>
           </View>
@@ -31,11 +41,7 @@ export default function Login() {
           >
             نبض
           </Text.Heading>
-          <Text.Paragraph
-            type="body-sm"
-            color="muted"
-            align="center"
-          >
+          <Text.Paragraph type="body-sm" color="muted" align="center">
             Pulse
           </Text.Paragraph>
         </View>
@@ -52,7 +58,12 @@ export default function Login() {
               className="flex-row-reverse items-center gap-3 bg-surface-secondary rounded-2xl px-4 py-3"
             >
               <Text style={{ fontSize: 22 }}>{item.icon}</Text>
-              <Text.Paragraph type="body-sm" weight="medium" align="end" className="flex-1">
+              <Text.Paragraph
+                type="body-sm"
+                weight="medium"
+                align="end"
+                className="flex-1"
+              >
                 {item.text}
               </Text.Paragraph>
             </View>
@@ -65,7 +76,11 @@ export default function Login() {
         {/* Error */}
         {error && (
           <View className="bg-danger/10 rounded-2xl px-4 py-3">
-            <Text.Paragraph type="body-sm" align="center" className="text-danger">
+            <Text.Paragraph
+              type="body-sm"
+              align="center"
+              className="text-danger"
+            >
               {error}
             </Text.Paragraph>
           </View>
@@ -84,11 +99,7 @@ export default function Login() {
             <Spinner color={accentForeground} />
           ) : (
             <>
-              <Image
-                source={require("@/assets/icons/google-icon.png")}
-                style={{ width: 22, height: 22 }}
-                resizeMode="contain"
-              />
+              <GoogleIcon size={22} />
               <Button.Label className="font-bold">
                 تسجيل الدخول بجوجل
               </Button.Label>
