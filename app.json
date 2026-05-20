@@ -1,72 +1,70 @@
 ﻿{
-    "expo":  {
-                 "name":  "نبض",
-                 "slug":  "pulse",
-                 "version":  "1.0.0",
-                 "orientation":  "portrait",
-                 "icon":  "./assets/images/icon.png",
-                 "scheme":  "pulse",
-                 "userInterfaceStyle":  "automatic",
-                 "newArchEnabled":  true,
-                 "ios":  {
-                             "supportsTablet":  true,
-                             "bundleIdentifier":  "com.sheriff.pulse"
-                         },
-                 "android":  {
-                                 "package":  "com.sheriff.pulse",
-                                 "adaptiveIcon":  {
-                                                      "backgroundColor":  "#E6F4FE",
-                                                      "foregroundImage":  "./assets/images/android-icon-foreground.png",
-                                                      "backgroundImage":  "./assets/images/android-icon-background.png",
-                                                      "monochromeImage":  "./assets/images/android-icon-monochrome.png"
-                                                  },
-                                 "edgeToEdgeEnabled":  true,
-                                 "predictiveBackGestureEnabled":  false
-                             },
-                 "web":  {
-                             "output":  "server",
-                             "favicon":  "./assets/images/favicon.png"
-                         },
-                 "plugins":  [
-                                 [
-                                     "expo-router",
-                                     {
-                                         "root":  "./src/app"
-                                     }
-                                 ],
-                                 [
-                                     "expo-splash-screen",
-                                     {
-                                         "image":  "./assets/images/splash-icon.png",
-                                         "imageWidth":  200,
-                                         "resizeMode":  "contain",
-                                         "backgroundColor":  "#ffffff",
-                                         "dark":  {
-                                                      "backgroundColor":  "#000000"
-                                                  }
-                                     }
-                                 ],
-                                 "expo-font",
-                                 "expo-web-browser",
-                                 "expo-secure-store",
-                                 [
-                                     "@react-native-google-signin/google-signin",
-                                     {
-                                         "iosUrlScheme":  "com.googleusercontent.apps.537064981983-8h8ji2t445j6tf4bds0bn3v85qhikpgn"
-                                     }
-                                 ]
-                             ],
-                 "experiments":  {
-                                     "typedRoutes":  true,
-                                     "reactCompiler":  true
-                                 },
-                 "extra":  {
-                               "router":  {
-
-                                          },
-                               "eas":  {
-                                           "projectId":  "c98f4ac1-c016-4d62-8f0d-c646cbf7d593"
-                                       }
-                           }
-             }
+  "expo": {
+    "name": "نبض",
+    "slug": "pulse",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "pulse",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sheriff.pulse"
+    },
+    "android": {
+      "package": "com.sheriff.pulse",
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "output": "server",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-router",
+        {
+          "root": "./src/app"
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff",
+          "dark": {
+            "backgroundColor": "#000000"
+          }
+        }
+      ],
+      "expo-font",
+      "expo-web-browser",
+      "expo-secure-store",
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.537064981983-8h8ji2t445j6tf4bds0bn3v85qhikpgn"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c98f4ac1-c016-4d62-8f0d-c646cbf7d593"
+      }
+    }
+  }
 }

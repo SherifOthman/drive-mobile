@@ -10,4 +10,8 @@
   --font-bold: "Cairo-Bold";
   --font-medium: "Cairo-Medium";
   --font-semibold: "Cairo-SemiBold";
+
+  /* Border Radius */
+  --radius: 0.25rem;
+  --field-radius: 0.25rem;
 }

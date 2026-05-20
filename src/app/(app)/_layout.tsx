@@ -1,13 +1,13 @@
-import { Ionicons } from "@expo/vector-icons";
+﻿import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { useThemeColor } from "heroui-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function AppLayout() {
-  const [accent, background, border] = useThemeColor([
+  const [accent, border, surface] = useThemeColor([
     "accent",
-    "background",
     "border",
+    "surface",
   ]);
   const insets = useSafeAreaInsets();
 
@@ -20,31 +20,29 @@ export default function AppLayout() {
           fontSize: 11,
         },
         tabBarStyle: {
-          backgroundColor: background, // Set your hex code here
-          position: "absolute", // Allows content to flow behind
-          borderTopWidth: 1, // Removes the top border line
-          borderTopColor: border, // Makes the border color transparent
-          paddingTop: 5, // Remove top margin
-          marginBottom: insets.bottom, // Add bottom margin for safe area
+          backgroundColor: surface,
+          borderTopWidth: 1,
+          borderTopColor: border,
+          paddingTop: 5,
+          paddingBottom: insets.bottom > 0 ? insets.bottom : 10,
+          height: 60 + (insets.bottom > 0 ? insets.bottom : 10),
           elevation: 0,
         },
-        tabBarActiveTintColor: accent, // Color of the active icon/label
+        tabBarActiveTintColor: accent,
         tabBarInactiveTintColor: "#888",
       }}
     >
       <Tabs.Screen
         name="profile"
         options={{
-          title: "الاعدادات",
-          tabBarIcon({ color, focused }) {
-            return (
-              <Ionicons
-                name={focused ? "settings" : "settings-outline"}
-                size={24}
-                color={color}
-              />
-            );
-          },
+          title: "الصفحة الشخصية",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "person" : "person-outline"}
+              size={24}
+              color={color}
+            />
+          ),
         }}
       />
 
@@ -52,15 +50,13 @@ export default function AppLayout() {
         name="categories"
         options={{
           title: "الاقسام",
-          tabBarIcon({ color, focused }) {
-            return (
-              <Ionicons
-                name={focused ? "grid" : "grid-outline"}
-                size={24}
-                color={color}
-              />
-            );
-          },
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "grid" : "grid-outline"}
+              size={24}
+              color={color}
+            />
+          ),
         }}
       />
 
@@ -68,15 +64,13 @@ export default function AppLayout() {
         name="news"
         options={{
           title: "الاخبار",
-          tabBarIcon({ color, focused }) {
-            return (
-              <Ionicons
-                name={focused ? "newspaper" : "newspaper-outline"}
-                size={24}
-                color={color}
-              />
-            );
-          },
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "newspaper" : "newspaper-outline"}
+              size={24}
+              color={color}
+            />
+          ),
         }}
       />
 
@@ -84,15 +78,13 @@ export default function AppLayout() {
         name="doctors"
         options={{
           title: "الاطباء",
-          tabBarIcon({ color, focused }) {
-            return (
-              <Ionicons
-                name={focused ? "people" : "people-outline"}
-                size={24}
-                color={color}
-              />
-            );
-          },
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "people" : "people-outline"}
+              size={24}
+              color={color}
+            />
+          ),
         }}
       />
 
@@ -109,6 +101,10 @@ export default function AppLayout() {
           ),
         }}
       />
+
+      {/* Hidden screens */}
+      <Tabs.Screen name="settings" options={{ href: null }} />
+      <Tabs.Screen name="edit-profile" options={{ href: null }} />
     </Tabs>
   );
 }
