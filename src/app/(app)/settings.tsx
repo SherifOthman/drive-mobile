@@ -4,7 +4,7 @@ import {
   ListGroup,
   Separator,
   Switch,
-  Text,
+  Typography,
   useThemeColor,
 } from "heroui-native";
 import { ScrollView, View } from "react-native";
@@ -14,7 +14,7 @@ import { Uniwind, useUniwind } from "uniwind";
 export default function Settings() {
   const { theme } = useUniwind();
   const isDark = theme === "dark";
-  const [accent] = useThemeColor(["accent", "foreground"]);
+  const [accent, foreground] = useThemeColor(["accent", "foreground"]);
   const toggleTheme = () => Uniwind.setTheme(isDark ? "light" : "dark");
 
   return (
@@ -26,45 +26,22 @@ export default function Settings() {
         showsVerticalScrollIndicator={false}
       >
         <View className="gap-2">
-          <Text.Paragraph
+          <Typography.Paragraph
             type="body-sm"
             color="muted"
             className="mr-1 text-right"
           >
             المظهر
-          </Text.Paragraph>
+          </Typography.Paragraph>
           <ListGroup>
             <ListGroup.Item>
               <ListGroup.ItemPrefix>
-                <View className="w-9 h-9 rounded-full bg-accent/10 items-center justify-center">
-                  <Ionicons
-                    name={isDark ? "moon" : "sunny-outline"}
-                    size={18}
-                    color={accent}
-                  />
-                </View>
-              </ListGroup.ItemPrefix>
-              <ListGroup.ItemContent>
-                <ListGroup.ItemTitle>الوضع الليلي</ListGroup.ItemTitle>
-                <ListGroup.ItemDescription>
-                  {isDark ? "مفعّل" : "معطّل"}
-                </ListGroup.ItemDescription>
-              </ListGroup.ItemContent>
-              <ListGroup.ItemSuffix>
                 <Switch
                   isSelected={isDark}
                   onSelectedChange={toggleTheme}
                   className="w-14 h-8"
                 >
-                  <Switch.Thumb
-                    className="size-6"
-                    animation={{
-                      left: {
-                        value: 4,
-                        springConfig: { damping: 30, stiffness: 300 },
-                      },
-                    }}
-                  />
+                  <Switch.Thumb className="size-6" />
                   <Switch.StartContent className="left-1.5">
                     {isDark && (
                       <Animated.View entering={ZoomIn.springify()}>
@@ -80,37 +57,39 @@ export default function Settings() {
                     )}
                   </Switch.EndContent>
                 </Switch>
+              </ListGroup.ItemPrefix>
+              <ListGroup.ItemContent>
+                <ListGroup.ItemTitle className="text-right">
+                  الوضع الليلي
+                </ListGroup.ItemTitle>
+                <ListGroup.ItemDescription className="text-right">
+                  {isDark ? "مفعّل" : "معطّل"}
+                </ListGroup.ItemDescription>
+              </ListGroup.ItemContent>
+              <ListGroup.ItemSuffix>
+                <View className="w-9 h-9 rounded-full bg-accent/10 items-center justify-center">
+                  <Ionicons
+                    name={isDark ? "moon" : "sunny-outline"}
+                    size={18}
+                    color={accent}
+                  />
+                </View>
               </ListGroup.ItemSuffix>
             </ListGroup.Item>
           </ListGroup>
         </View>
 
         <View className="gap-2">
-          <Text.Paragraph
+          <Typography.Paragraph
             type="body-sm"
             color="muted"
             className="mr-1 text-right"
           >
             الإشعارات
-          </Text.Paragraph>
+          </Typography.Paragraph>
           <ListGroup>
             <ListGroup.Item>
               <ListGroup.ItemPrefix>
-                <View className="w-9 h-9 rounded-full bg-accent/10 items-center justify-center">
-                  <Ionicons
-                    name="notifications-outline"
-                    size={18}
-                    color={accent}
-                  />
-                </View>
-              </ListGroup.ItemPrefix>
-              <ListGroup.ItemContent>
-                <ListGroup.ItemTitle>إشعارات التطبيق</ListGroup.ItemTitle>
-                <ListGroup.ItemDescription>
-                  تلقّي الإشعارات
-                </ListGroup.ItemDescription>
-              </ListGroup.ItemContent>
-              <ListGroup.ItemSuffix>
                 <Switch
                   isSelected={true}
                   onSelectedChange={() => {}}
@@ -118,22 +97,28 @@ export default function Settings() {
                 >
                   <Switch.Thumb className="size-6" />
                 </Switch>
+              </ListGroup.ItemPrefix>
+              <ListGroup.ItemContent>
+                <ListGroup.ItemTitle className="text-right">
+                  إشعارات التطبيق
+                </ListGroup.ItemTitle>
+                <ListGroup.ItemDescription className="text-right">
+                  تلقّي الإشعارات
+                </ListGroup.ItemDescription>
+              </ListGroup.ItemContent>
+              <ListGroup.ItemSuffix>
+                <View className="w-9 h-9 rounded-full bg-accent/10 items-center justify-center">
+                  <Ionicons
+                    name="notifications-outline"
+                    size={18}
+                    color={accent}
+                  />
+                </View>
               </ListGroup.ItemSuffix>
             </ListGroup.Item>
             <Separator className="mx-4" />
             <ListGroup.Item>
               <ListGroup.ItemPrefix>
-                <View className="w-9 h-9 rounded-full bg-accent/10 items-center justify-center">
-                  <Ionicons name="mail-outline" size={18} color={accent} />
-                </View>
-              </ListGroup.ItemPrefix>
-              <ListGroup.ItemContent>
-                <ListGroup.ItemTitle>إشعارات البريد</ListGroup.ItemTitle>
-                <ListGroup.ItemDescription>
-                  تلقّي رسائل البريد
-                </ListGroup.ItemDescription>
-              </ListGroup.ItemContent>
-              <ListGroup.ItemSuffix>
                 <Switch
                   isSelected={false}
                   onSelectedChange={() => {}}
@@ -141,22 +126,43 @@ export default function Settings() {
                 >
                   <Switch.Thumb className="size-6" />
                 </Switch>
+              </ListGroup.ItemPrefix>
+              <ListGroup.ItemContent>
+                <ListGroup.ItemTitle className="text-right">
+                  إشعارات البريد
+                </ListGroup.ItemTitle>
+                <ListGroup.ItemDescription className="text-right">
+                  تلقّي رسائل البريد
+                </ListGroup.ItemDescription>
+              </ListGroup.ItemContent>
+              <ListGroup.ItemSuffix>
+                <View className="w-9 h-9 rounded-full bg-accent/10 items-center justify-center">
+                  <Ionicons name="mail-outline" size={18} color={accent} />
+                </View>
               </ListGroup.ItemSuffix>
             </ListGroup.Item>
           </ListGroup>
         </View>
 
         <View className="gap-2">
-          <Text.Paragraph
+          <Typography.Paragraph
             type="body-sm"
             color="muted"
             className="mr-1 text-right"
           >
             حول التطبيق
-          </Text.Paragraph>
+          </Typography.Paragraph>
           <ListGroup>
             <ListGroup.Item>
-              <ListGroup.ItemPrefix>
+              <ListGroup.ItemContent>
+                <ListGroup.ItemTitle className="text-right">
+                  الإصدار
+                </ListGroup.ItemTitle>
+                <ListGroup.ItemDescription className="text-right">
+                  1.0.0
+                </ListGroup.ItemDescription>
+              </ListGroup.ItemContent>
+              <ListGroup.ItemSuffix>
                 <View className="w-9 h-9 rounded-full bg-accent/10 items-center justify-center">
                   <Ionicons
                     name="information-circle-outline"
@@ -164,15 +170,22 @@ export default function Settings() {
                     color={accent}
                   />
                 </View>
-              </ListGroup.ItemPrefix>
-              <ListGroup.ItemContent>
-                <ListGroup.ItemTitle>الإصدار</ListGroup.ItemTitle>
-                <ListGroup.ItemDescription>1.0.0</ListGroup.ItemDescription>
-              </ListGroup.ItemContent>
+              </ListGroup.ItemSuffix>
             </ListGroup.Item>
             <Separator className="mx-4" />
             <ListGroup.Item>
               <ListGroup.ItemPrefix>
+                <Ionicons name="chevron-back" size={18} color={foreground} />
+              </ListGroup.ItemPrefix>
+              <ListGroup.ItemContent>
+                <ListGroup.ItemTitle className="text-right">
+                  سياسة الخصوصية
+                </ListGroup.ItemTitle>
+                <ListGroup.ItemDescription className="text-right">
+                  قراءة سياسة الخصوصية
+                </ListGroup.ItemDescription>
+              </ListGroup.ItemContent>
+              <ListGroup.ItemSuffix>
                 <View className="w-9 h-9 rounded-full bg-accent/10 items-center justify-center">
                   <Ionicons
                     name="shield-checkmark-outline"
@@ -180,11 +193,7 @@ export default function Settings() {
                     color={accent}
                   />
                 </View>
-              </ListGroup.ItemPrefix>
-              <ListGroup.ItemContent>
-                <ListGroup.ItemTitle>سياسة الخصوصية</ListGroup.ItemTitle>
-              </ListGroup.ItemContent>
-              <ListGroup.ItemSuffix />
+              </ListGroup.ItemSuffix>
             </ListGroup.Item>
           </ListGroup>
         </View>
