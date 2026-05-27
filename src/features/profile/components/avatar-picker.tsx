@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { Avatar, PressableFeedback, Text } from "heroui-native";
+import { Avatar, PressableFeedback, Typography } from "heroui-native";
 import { Alert, View } from "react-native";
 
 type Props = {
@@ -9,8 +9,11 @@ type Props = {
   onChangeImage: (uri: string) => void;
 };
 
-export function AvatarPicker({ avatarUri, fallbackName, onChangeImage }: Props) {
-
+export function AvatarPicker({
+  avatarUri,
+  fallbackName,
+  onChangeImage,
+}: Props) {
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
@@ -31,7 +34,7 @@ export function AvatarPicker({ avatarUri, fallbackName, onChangeImage }: Props) 
   return (
     <View className="items-center gap-3">
       <View>
-        <Avatar size="lg" className="w-[100px] h-[100px] rounded-full">
+        <Avatar size="lg" className="h-25 w-25 rounded-full">
           {avatarUri ? <Avatar.Image source={{ uri: avatarUri }} /> : null}
           <Avatar.Fallback delayMs={200}>
             {fallbackName?.charAt(0) ?? "؟"}
@@ -40,7 +43,7 @@ export function AvatarPicker({ avatarUri, fallbackName, onChangeImage }: Props) 
 
         <PressableFeedback
           onPress={pickImage}
-          className="absolute bottom-0 left-0 w-8 h-8 rounded-full bg-accent items-center justify-center"
+          className="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-accent items-center justify-center"
           style={{ elevation: 3 }}
         >
           <Ionicons name="camera" size={16} color="white" />
@@ -48,9 +51,9 @@ export function AvatarPicker({ avatarUri, fallbackName, onChangeImage }: Props) 
       </View>
 
       <PressableFeedback onPress={pickImage}>
-        <Text type="body-sm" className="text-accent" weight="medium">
+        <Typography type="body-sm" className="text-accent" weight="medium">
           تغيير الصورة
-        </Text>
+        </Typography>
       </PressableFeedback>
     </View>
   );
