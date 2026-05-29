@@ -1,4 +1,5 @@
-﻿import { PageHeader } from "@/src/components/PageHeader";
+﻿import { ScreenWrapper } from "@/src/components/ScreenWrapper";
+import { PageHeader } from "@/src/components/PageHeader";
 import { AvatarPicker } from "@/src/features/profile/components/avatar-picker";
 import { useMe, useUpdateMe } from "@/src/features/profile/hooks/use-profile";
 import {
@@ -17,7 +18,7 @@ import {
 } from "heroui-native";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
+import { KeyboardAvoidingView, Platform, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function EditProfile() {
@@ -43,15 +44,6 @@ export default function EditProfile() {
     router.back();
   };
 
-  if (isLoading) {
-    return (
-      <View className="flex-1 items-center justify-center bg-background">
-        <Skeleton className="w-24 h-24 rounded-full" />
-        <Skeleton className="w-48 h-6 rounded-lg mt-4" />
-      </View>
-    );
-  }
-
   const hasChanges = isDirty || localImage !== null;
 
   return (
@@ -61,22 +53,24 @@ export default function EditProfile() {
     >
       <PageHeader title="تعديل الملف الشخصي " />
 
-      <ScrollView
-        contentContainerStyle={{
-          padding: 24,
-          gap: 24,
-          paddingBottom: insets.bottom + 40,
-        }}
-        showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
-      >
+      <ScreenWrapper isLoading={isLoading} loadingView={
+        <View className="items-center">
+          <Skeleton className="w-24 h-24 rounded-full" />
+          <Skeleton className="w-48 h-6 rounded-lg mt-4" />
+        </View>
+      } className="gap-6">
+        <AvatarPicker
+          avatarUri={localImage ?? data?.imageUrl ?? undefined}
+          fallbackName={data?.fullName}
+          onChangeImage={setLocalImage}
+        />
         <AvatarPicker
           avatarUri={localImage ?? data?.imageUrl ?? undefined}
           fallbackName={data?.fullName}
           onChangeImage={setLocalImage}
         />
 
-        <View className="gap-5 ">
+        <View className="gap-5">
           <Controller
             control={control}
             name="fullName"
@@ -114,7 +108,7 @@ export default function EditProfile() {
             <Button.Label>حفظ</Button.Label>
           </Button>
         )}
-      </ScrollView>
+      </ScreenWrapper>
     </KeyboardAvoidingView>
   );
 }

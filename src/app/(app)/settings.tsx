@@ -1,4 +1,5 @@
-﻿import { PageHeader } from "@/src/components/PageHeader";
+﻿import { ScreenWrapper } from "@/src/components/ScreenWrapper";
+import { PageHeader } from "@/src/components/PageHeader";
 import { Ionicons } from "@expo/vector-icons";
 import {
   ListGroup,
@@ -7,7 +8,7 @@ import {
   Typography,
   useThemeColor,
 } from "heroui-native";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
 import Animated, { ZoomIn } from "react-native-reanimated";
 import { Uniwind, useUniwind } from "uniwind";
 
@@ -21,10 +22,7 @@ export default function Settings() {
     <View className="flex-1 bg-background">
       <PageHeader title="الإعدادات" headingType="h4" />
 
-      <ScrollView
-        contentContainerStyle={{ padding: 20, gap: 24 }}
-        showsVerticalScrollIndicator={false}
-      >
+      <ScreenWrapper className="gap-6">
         <View className="gap-2">
           <Typography.Paragraph
             type="body-sm"
@@ -197,7 +195,7 @@ export default function Settings() {
             </ListGroup.Item>
           </ListGroup>
         </View>
-      </ScrollView>
+      </ScreenWrapper>
     </View>
   );
 }
