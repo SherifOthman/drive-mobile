@@ -46,7 +46,7 @@ export function formatSchedule(
     const e = parseTime(nextEnd);
     if (!s || !e) return "";
 
-    const today = new Date().getDay();
+    const today = new Date().getUTCDay();
     const diff = (nextDayOfWeek - today + 7) % 7;
     const prefix = diff === 1 ? "غداً" : getArabicDayName(nextDayOfWeek);
 

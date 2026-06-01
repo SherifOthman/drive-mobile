@@ -8,15 +8,22 @@ import {
   useThemeColor,
 } from "heroui-native";
 import { useCallback, useState } from "react";
-import { FlatList, View } from "react-native";
+import { FlatList, RefreshControl, View } from "react-native";
 import { ScreenWrapper } from "../../components/ScreenWrapper";
 import { DoctorCard } from "../../features/doctors/components/doctor-card";
 import { useDoctors } from "../../features/doctors/hooks/use-doctors";
 
 export default function Doctors() {
   const foreground = useThemeColor("foreground");
-  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useDoctors();
+  const {
+    data,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    refetch,
+    isRefetching,
+  } = useDoctors();
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
 
   const toggleFavorite = (id: string) => {
@@ -44,6 +51,9 @@ export default function Doctors() {
         showsVerticalScrollIndicator={false}
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.3}
+        refreshControl={
+          <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+        }
         renderItem={({ item }) => (
           <DoctorCard
             name={item.name}
