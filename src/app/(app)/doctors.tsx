@@ -16,7 +16,7 @@ import { useDoctors } from "../../features/doctors/hooks/use-doctors";
 export default function Doctors() {
   const foreground = useThemeColor("foreground");
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useDoctors({ pageSize: 20 });
+    useDoctors();
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
 
   const toggleFavorite = (id: string) => {
@@ -55,6 +55,7 @@ export default function Doctors() {
             totalRatings={item.totalRatings}
             isOpen={item.isOpen}
             todaySchedule={item.todaySchedule}
+            nextSchedule={item.nextSchedule}
             isFavorite={favorites.has(item.id)}
             onToggleFavorite={() => toggleFavorite(item.id)}
             className="mt-4"

@@ -11,6 +11,7 @@ export type DoctorResponse = {
   totalRatings: number;
   isOpen: boolean;
   todaySchedule: string;
+  nextSchedule: string;
 };
 
 export type PaginatedResponse<T> = {

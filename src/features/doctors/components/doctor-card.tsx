@@ -12,6 +12,7 @@ export interface DoctorCardProps {
   totalRatings?: number | null;
   isOpen: boolean;
   todaySchedule: string;
+  nextSchedule: string;
   onToggleFavorite: () => void;
   isFavorite: boolean;
   className?: string;
@@ -27,6 +28,7 @@ export function DoctorCard({
   totalRatings,
   isOpen,
   todaySchedule,
+  nextSchedule,
   onToggleFavorite,
   isFavorite,
   className,
@@ -105,11 +107,18 @@ export function DoctorCard({
         )}
       </View>
 
-      {todaySchedule ? (
+      {isOpen && todaySchedule ? (
         <View className="mt-2 flex-row-reverse items-center gap-1 border-t border-border pt-2">
           <Ionicons name="time-outline" size={14} color="#888" />
           <Typography.Paragraph type="body-xs">
             من {todaySchedule}
+          </Typography.Paragraph>
+        </View>
+      ) : !isOpen && nextSchedule ? (
+        <View className="mt-2 flex-row-reverse items-center gap-1 border-t border-border pt-2">
+          <Ionicons name="time-outline" size={14} color="#888" />
+          <Typography.Paragraph type="body-xs">
+            {nextSchedule}
           </Typography.Paragraph>
         </View>
       ) : null}
