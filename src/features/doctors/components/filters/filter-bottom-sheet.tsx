@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import {
   BottomSheet,
   Button,
@@ -7,7 +6,7 @@ import {
 } from "heroui-native";
 import { useCallback, useState } from "react";
 import { Pressable, View } from "react-native";
-import { getCities, getGovernorates, getSpecializations } from "../../api/filters-api";
+import { useCities, useGovernorates, useSpecializations } from "../../hooks/use-filters";
 
 export type FilterState = {
   governorateId: string | undefined;
@@ -29,21 +28,9 @@ export function FilterBottomSheet({ isOpen, onOpenChange, filters, onApply }: Pr
   const [specializationId, setSpecializationId] = useState<string | undefined>(filters.specializationId);
   const [gender, setGender] = useState<number | undefined>(filters.gender);
 
-  const { data: governorates } = useQuery({
-    queryKey: ["governorates"],
-    queryFn: getGovernorates,
-  });
-
-  const { data: cities } = useQuery({
-    queryKey: ["cities", governorateId],
-    queryFn: () => getCities(governorateId),
-    enabled: !!governorateId,
-  });
-
-  const { data: specializations } = useQuery({
-    queryKey: ["specializations"],
-    queryFn: getSpecializations,
-  });
+  const { data: governorates } = useGovernorates();
+  const { data: cities } = useCities(governorateId);
+  const { data: specializations } = useSpecializations();
 
   const selectedGovernorate = governorates?.find((g) => g.id === governorateId);
 
