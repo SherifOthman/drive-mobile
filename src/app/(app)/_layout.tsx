@@ -108,6 +108,10 @@ export default function AppLayout() {
         name="edit-profile"
         options={{ href: null, tabBarStyle: { display: "none" } }}
       />
+      <Tabs.Screen
+        name="doctor/[id]"
+        options={{ href: null, tabBarStyle: { display: "none" } }}
+      />
     </Tabs>
   );
 }

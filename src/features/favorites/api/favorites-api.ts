@@ -1,4 +1,7 @@
 import { api } from "@/src/services/api";
 
-export const toggleFavorite = (businessId: string) =>
-  api.post(`/favorites/${businessId}/toggle`);
+export const addFavorite = (businessId: string) =>
+  api.post(`/favorites/${businessId}`);
+
+export const removeFavorite = (businessId: string) =>
+  api.delete(`/favorites/${businessId}`);

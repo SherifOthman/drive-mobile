@@ -10,6 +10,7 @@ import {
 } from "heroui-native";
 import { useCallback, useState } from "react";
 import { FlatList, View } from "react-native";
+import { router } from "expo-router";
 import { ScreenWrapper } from "../../components/ScreenWrapper";
 import { DoctorCard } from "../../features/doctors/components/doctor-card";
 import {
@@ -104,6 +105,7 @@ export default function Doctors() {
               doctor={item}
               isFavorite={item.isFavorite}
               onToggleFavorite={() => toggleFav.mutate(item.id)}
+              onPress={() => router.push(`/(app)/doctor/${item.id}`)}
               className="mt-4"
             />
           )}
