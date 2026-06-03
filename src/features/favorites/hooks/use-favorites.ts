@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { InfiniteData } from "@tanstack/react-query";
 import { addFavorite, removeFavorite } from "../api/favorites-api";
 import type { DoctorResponse, PaginatedResponse } from "../../doctors/api/doctors-api";
+import type { DoctorDetailsResponse } from "../../doctors/api/doctor-details-api";
 
 type DoctorsInfinite = InfiniteData<PaginatedResponse<DoctorResponse>>;
 
@@ -10,11 +11,14 @@ export function useToggleFavorite() {
 
   return useMutation({
     mutationFn: async (businessId: string) => {
-      // Read current state to decide add or remove
-      const current = qc.getQueriesData<DoctorsInfinite>({ queryKey: ["doctors"] });
-      const isFav = current.some(([, data]) =>
+      // Read current state from list cache first, then details cache
+      const listData = qc.getQueriesData<DoctorsInfinite>({ queryKey: ["doctors"] });
+      const isFavInList = listData.some(([, data]) =>
         data?.pages.some((p) => p.items.some((i) => i.id === businessId && i.isFavorite))
       );
+      const detailData = qc.getQueryData<DoctorDetailsResponse>(["doctor", businessId]);
+      const isFav = isFavInList || detailData?.isFavorite === true;
+
       if (isFav) {
         await removeFavorite(businessId);
       } else {
@@ -25,9 +29,12 @@ export function useToggleFavorite() {
 
     onMutate: async (businessId) => {
       await qc.cancelQueries({ queryKey: ["doctors"] });
-      const prev = qc.getQueriesData<DoctorsInfinite>({ queryKey: ["doctors"] });
+      await qc.cancelQueries({ queryKey: ["doctor", businessId] });
 
-      // Optimistically flip isFavorite in the doctors cache
+      const prevList = qc.getQueriesData<DoctorsInfinite>({ queryKey: ["doctors"] });
+      const prevDetail = qc.getQueryData<DoctorDetailsResponse>(["doctor", businessId]);
+
+      // Flip in doctors list cache
       qc.setQueriesData<DoctorsInfinite>({ queryKey: ["doctors"] }, (old) => {
         if (!old) return old;
         return {
@@ -35,27 +42,32 @@ export function useToggleFavorite() {
           pages: old.pages.map((page) => ({
             ...page,
             items: page.items.map((item) =>
-              item.id === businessId
-                ? { ...item, isFavorite: !item.isFavorite }
-                : item
+              item.id === businessId ? { ...item, isFavorite: !item.isFavorite } : item
             ),
           })),
         };
       });
 
-      return { prev };
+      // Flip in doctor details cache if loaded
+      if (prevDetail) {
+        qc.setQueryData<DoctorDetailsResponse>(["doctor", businessId], {
+          ...prevDetail,
+          isFavorite: !prevDetail.isFavorite,
+        });
+      }
+
+      return { prevList, prevDetail };
     },
 
-    onError: (_err, _id, context) => {
-      // Revert on error
-      if (context?.prev) {
-        for (const [key, data] of context.prev) {
+    onError: (_err, businessId, context) => {
+      if (context?.prevList) {
+        for (const [key, data] of context.prevList) {
           qc.setQueryData(key, data);
         }
       }
+      if (context?.prevDetail) {
+        qc.setQueryData(["doctor", businessId], context.prevDetail);
+      }
     },
-
-    // No onSettled/invalidate — the optimistic update is the source of truth.
-    // The server confirmed success so the cache is correct.
   });
 }

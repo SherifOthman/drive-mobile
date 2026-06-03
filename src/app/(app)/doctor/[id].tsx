@@ -1,10 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
-import { Chip, Skeleton, Typography, useThemeColor } from "heroui-native";
-import { ScrollView, View } from "react-native";
+import { Chip, Skeleton, Spinner, Typography, useThemeColor } from "heroui-native";
+import { Image, ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PageHeader } from "@/src/components/PageHeader";
-import { ScreenWrapper } from "@/src/components/ScreenWrapper";
 import { BranchCard } from "@/src/features/doctors/components/branch-card";
 import { DetailSection } from "@/src/features/doctors/components/detail-section";
 import { DoctorDetailHeader } from "@/src/features/doctors/components/doctor-detail-header";
@@ -19,26 +18,30 @@ export default function DoctorDetailsScreen() {
   const [mutedColor] = useThemeColor(["muted"]);
   const insets = useSafeAreaInsets();
 
+  // Use a plain flex container — PageHeader manages its own top safe area
   return (
-    <ScreenWrapper
-      isScrollable={false}
-      isLoading={isLoading}
-      loadingView={
-        <View className="gap-4">
-          <Skeleton className="w-full h-32 rounded-xl" />
-          <Skeleton className="w-2/3 h-6 rounded-lg" />
-          <Skeleton className="w-1/2 h-4 rounded-lg" />
-        </View>
-      }
-    >
+    <View className="flex-1 bg-background">
       <PageHeader title={data?.name ?? ""} />
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: insets.bottom + 24, gap: 20 }}
-      >
-        {data && (
-          <>
+      {isLoading ? (
+        <View className="flex-1 items-center justify-center">
+          <Spinner />
+        </View>
+      ) : data ? (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: insets.bottom + 24 }}
+        >
+          {/* Cover image */}
+          {data.coverImageUrl && (
+            <Image
+              source={{ uri: data.coverImageUrl }}
+              style={{ width: "100%", height: 180 }}
+              resizeMode="cover"
+            />
+          )}
+
+          <View className="px-5 gap-5 pt-4">
             <DoctorDetailHeader
               data={data}
               onToggleFavorite={() => toggleFav.mutate(data.id)}
@@ -112,9 +115,9 @@ export default function DoctorDetailsScreen() {
                 </View>
               </DetailSection>
             )}
-          </>
-        )}
-      </ScrollView>
-    </ScreenWrapper>
+          </View>
+        </ScrollView>
+      ) : null}
+    </View>
   );
 }

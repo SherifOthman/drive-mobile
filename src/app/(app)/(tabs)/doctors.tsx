@@ -6,7 +6,6 @@ import {
   type FilterState,
 } from "@/src/features/doctors/components/filter-bottom-sheet";
 import { useDoctors } from "@/src/features/doctors/hooks/use-doctors";
-import { useToggleFavorite } from "@/src/features/favorites/hooks/use-favorites";
 import { useDebunce } from "@/src/hooks/useDebunce";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -59,7 +58,6 @@ export default function Doctors() {
     gender: filters.gender,
   });
 
-  const toggleFav = useToggleFavorite();
   const allItems = data?.pages.flatMap((p) => p.items) ?? [];
   const isFiltered = hasActiveFilter(filters, debouncedSearch);
 
@@ -118,7 +116,6 @@ export default function Doctors() {
           renderItem={({ item }) => (
             <DoctorCard
               doctor={item}
-              onToggleFavorite={() => toggleFav.mutate(item.id)}
               onPress={() => router.push(`/(app)/doctor/${item.id}` as any)}
               className="mt-4"
             />

@@ -8,23 +8,17 @@ import {
   Typography,
   useThemeColor,
 } from "heroui-native";
-import { Pressable, View } from "react-native";
+import { View } from "react-native";
 import type { DoctorResponse } from "../api/doctors-api";
 
 export interface DoctorCardProps {
   doctor: DoctorResponse;
-  onToggleFavorite: () => void;
   onPress?: () => void;
   className?: string;
 }
 
-export function DoctorCard({
-  doctor,
-  onToggleFavorite,
-  onPress,
-  className,
-}: DoctorCardProps) {
-  const [dangerColor, mutedColor] = useThemeColor(["danger", "muted"]);
+export function DoctorCard({ doctor, onPress, className }: DoctorCardProps) {
+  const [mutedColor] = useThemeColor(["muted"]);
 
   const schedule = formatSchedule(
     doctor.nextWorkingDay,
@@ -38,8 +32,7 @@ export function DoctorCard({
     <PressableFeedback onPress={onPress} animation={false}>
       <PressableFeedback.Scale>
         <Card className={className}>
-          <Card.Body className="gap-2 p-3">
-
+          <Card.Body className="gap-2 ">
             {/* Row 1: avatar + name + specialization + open badge */}
             <View className="flex-row-reverse gap-3">
               <Avatar size="lg">
@@ -56,7 +49,9 @@ export function DoctorCard({
                 </Typography.Paragraph>
                 <View className="flex-row-reverse gap-2">
                   <Chip size="sm" variant="secondary">
-                    <Chip.Label className="text-right">{doctor.specialization}</Chip.Label>
+                    <Chip.Label className="text-right">
+                      {doctor.specialization}
+                    </Chip.Label>
                   </Chip>
                   {doctor.isOpen && (
                     <Chip size="sm" variant="soft" color="success">
@@ -71,14 +66,22 @@ export function DoctorCard({
             <View className="flex-row-reverse items-center justify-between">
               <View className="flex-row-reverse items-center gap-2">
                 <View className="flex-row-reverse items-center gap-1">
-                  <Ionicons name="location-outline" size={14} color={mutedColor} />
+                  <Ionicons
+                    name="location-outline"
+                    size={14}
+                    color={mutedColor}
+                  />
                   <Typography.Paragraph type="body-xs" color="muted">
                     {doctor.governorate}
                   </Typography.Paragraph>
                 </View>
                 {doctor.visitPrice != null && (
                   <View className="flex-row-reverse items-center gap-1">
-                    <Ionicons name="cash-outline" size={14} color={mutedColor} />
+                    <Ionicons
+                      name="cash-outline"
+                      size={14}
+                      color={mutedColor}
+                    />
                     <Typography.Paragraph type="body-xs" color="muted">
                       {doctor.visitPrice.toLocaleString("ar-EG")} ج.م
                     </Typography.Paragraph>
@@ -87,7 +90,11 @@ export function DoctorCard({
               </View>
               <View className="flex-row-reverse items-center gap-1">
                 <Ionicons name="star" size={12} color="#facc15" />
-                <Typography.Paragraph type="body-xs" weight="semibold" className="text-yellow-500">
+                <Typography.Paragraph
+                  type="body-xs"
+                  weight="semibold"
+                  className="text-yellow-500"
+                >
                   {doctor.averageRating.toFixed(1)}
                 </Typography.Paragraph>
                 <Typography.Paragraph type="body-xs" color="muted">
@@ -96,38 +103,18 @@ export function DoctorCard({
               </View>
             </View>
 
-            {/* Row 3: schedule (right) | heart spacer (left) */}
-            <View className="flex-row-reverse items-center justify-between border-t border-border pt-2">
+            {/* Row 3: schedule */}
+            <View className="flex-row-reverse items-center border-t border-border pt-2">
               <View className="flex-row-reverse items-center gap-1">
-                <Ionicons name="time-outline" size={14} color={mutedColor} />
-                <Typography.Paragraph type="body-xs">{schedule}</Typography.Paragraph>
+                <Typography.Paragraph type="body-xs">
+                  {schedule}
+                </Typography.Paragraph>
               </View>
-              {/* Spacer keeps layout aligned — real button is absolutely positioned below */}
-              <View style={{ width: 22, height: 22 }} />
             </View>
-
           </Card.Body>
         </Card>
       </PressableFeedback.Scale>
-      <PressableFeedback.Ripple />
-
-      {/*
-        The heart button is placed OUTSIDE PressableFeedback.Scale.
-        This is the only reliable way to have a pressable inside a pressable
-        in React Native — stopPropagation() does not work on gesture handlers.
-        It is absolutely positioned to overlay the spacer in row 3.
-      */}
-      <Pressable
-        onPress={onToggleFavorite}
-        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-        style={{ position: "absolute", bottom: 14, left: 12 }}
-      >
-        <Ionicons
-          name={doctor.isFavorite ? "heart" : "heart-outline"}
-          size={22}
-          color={doctor.isFavorite ? dangerColor : mutedColor}
-        />
-      </Pressable>
+      {/* <PressableFeedback.Ripple /> */}
     </PressableFeedback>
   );
 }

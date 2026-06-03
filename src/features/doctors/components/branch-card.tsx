@@ -14,10 +14,6 @@ export function BranchCard({ branch }: Props) {
   return (
     <Card variant="secondary">
       <Card.Body className="p-3 gap-2">
-        <Typography.Paragraph weight="bold" className="text-right">
-          {branch.name}
-        </Typography.Paragraph>
-
         {branch.address && (
           <View className="flex-row-reverse items-center gap-2">
             <Ionicons name="location-outline" size={14} color={mutedColor} />
@@ -36,7 +32,7 @@ export function BranchCard({ branch }: Props) {
 
         {branch.workingDays.length > 0 && (
           <>
-            <Separator className="my-1" />
+            {(branch.address || branch.phoneNumbers.length > 0) && <Separator className="my-1" />}
             {branch.workingDays.map((wd) => (
               <WorkingDayRow key={wd.day} wd={wd} size="sm" />
             ))}
