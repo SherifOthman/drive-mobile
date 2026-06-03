@@ -9,7 +9,7 @@ import {
   useThemeColor,
 } from "heroui-native";
 import { useCallback, useState } from "react";
-import { FlatList, RefreshControl, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { ScreenWrapper } from "../../components/ScreenWrapper";
 import { DoctorCard } from "../../features/doctors/components/doctor-card";
 import {
@@ -40,8 +40,6 @@ export default function Doctors() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    refetch,
-    isRefetching,
   } = useDoctors({
     name: debouncedSearchTerm,
     governorateId: filters.governorateId,
@@ -101,9 +99,6 @@ export default function Doctors() {
           showsVerticalScrollIndicator={false}
           onEndReached={handleEndReached}
           onEndReachedThreshold={0.3}
-          refreshControl={
-            <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
-          }
           renderItem={({ item }) => (
             <DoctorCard
               doctor={item}
