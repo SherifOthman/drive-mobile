@@ -1,5 +1,8 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getDoctors, DoctorsQuery } from "../api/doctors-api";
+import { getDoctors, type DoctorResponse, type DoctorsQuery } from "../api/doctors-api";
+
+// Re-export so consumers can import from the hook file
+export type { DoctorResponse, DoctorsQuery };
 
 export function useDoctors(query: DoctorsQuery = {}) {
   return useInfiniteQuery({
