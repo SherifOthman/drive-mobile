@@ -1,4 +1,4 @@
-﻿import { ScreenWrapper } from "@/src/components/ScreenWrapper";
+import { ScreenWrapper } from "@/src/components/ScreenWrapper";
 import { ProfileHeader } from "@/src/features/profile/components/profile-header";
 import { ProfileMenu } from "@/src/features/profile/components/profile-menu";
 import { useMe } from "@/src/features/profile/hooks/use-profile";

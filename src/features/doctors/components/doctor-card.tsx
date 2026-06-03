@@ -1,7 +1,14 @@
-import { Ionicons } from "@expo/vector-icons";
-import { Avatar, Card, Chip, PressableFeedback, Typography, useThemeColor } from "heroui-native";
-import { Pressable, View } from "react-native";
 import { formatSchedule, nameInitial } from "@/src/utils/arabic";
+import { Ionicons } from "@expo/vector-icons";
+import {
+  Avatar,
+  Card,
+  Chip,
+  PressableFeedback,
+  Typography,
+  useThemeColor,
+} from "heroui-native";
+import { Pressable, View } from "react-native";
 import type { DoctorResponse } from "../api/doctors-api";
 
 export interface DoctorCardProps {
@@ -11,7 +18,12 @@ export interface DoctorCardProps {
   className?: string;
 }
 
-export function DoctorCard({ doctor, onToggleFavorite, onPress, className }: DoctorCardProps) {
+export function DoctorCard({
+  doctor,
+  onToggleFavorite,
+  onPress,
+  className,
+}: DoctorCardProps) {
   const [dangerColor, mutedColor] = useThemeColor(["danger", "muted"]);
 
   const schedule = formatSchedule(
@@ -22,6 +34,7 @@ export function DoctorCard({ doctor, onToggleFavorite, onPress, className }: Doc
   );
 
   return (
+    // PressableFeedback handles the card tap (navigate to details)
     <PressableFeedback onPress={onPress} animation={false}>
       <PressableFeedback.Scale>
         <Card className={className}>
@@ -59,7 +72,9 @@ export function DoctorCard({ doctor, onToggleFavorite, onPress, className }: Doc
               <View className="flex-row-reverse items-center gap-2">
                 <View className="flex-row-reverse items-center gap-1">
                   <Ionicons name="location-outline" size={14} color={mutedColor} />
-                  <Typography.Paragraph type="body-xs" color="muted">{doctor.governorate}</Typography.Paragraph>
+                  <Typography.Paragraph type="body-xs" color="muted">
+                    {doctor.governorate}
+                  </Typography.Paragraph>
                 </View>
                 {doctor.visitPrice != null && (
                   <View className="flex-row-reverse items-center gap-1">
@@ -81,29 +96,38 @@ export function DoctorCard({ doctor, onToggleFavorite, onPress, className }: Doc
               </View>
             </View>
 
-            {/* Row 3: schedule (right) | heart button (left) — border top */}
+            {/* Row 3: schedule (right) | heart spacer (left) */}
             <View className="flex-row-reverse items-center justify-between border-t border-border pt-2">
               <View className="flex-row-reverse items-center gap-1">
                 <Ionicons name="time-outline" size={14} color={mutedColor} />
                 <Typography.Paragraph type="body-xs">{schedule}</Typography.Paragraph>
               </View>
-              {/* stopPropagation prevents this press from triggering PressableFeedback.onPress */}
-              <Pressable
-                onPress={(e) => { e.stopPropagation(); onToggleFavorite(); }}
-                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-              >
-                <Ionicons
-                  name={doctor.isFavorite ? "heart" : "heart-outline"}
-                  size={22}
-                  color={doctor.isFavorite ? dangerColor : mutedColor}
-                />
-              </Pressable>
+              {/* Spacer keeps layout aligned — real button is absolutely positioned below */}
+              <View style={{ width: 22, height: 22 }} />
             </View>
 
           </Card.Body>
         </Card>
       </PressableFeedback.Scale>
       <PressableFeedback.Ripple />
+
+      {/*
+        The heart button is placed OUTSIDE PressableFeedback.Scale.
+        This is the only reliable way to have a pressable inside a pressable
+        in React Native — stopPropagation() does not work on gesture handlers.
+        It is absolutely positioned to overlay the spacer in row 3.
+      */}
+      <Pressable
+        onPress={onToggleFavorite}
+        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        style={{ position: "absolute", bottom: 14, left: 12 }}
+      >
+        <Ionicons
+          name={doctor.isFavorite ? "heart" : "heart-outline"}
+          size={22}
+          color={doctor.isFavorite ? dangerColor : mutedColor}
+        />
+      </Pressable>
     </PressableFeedback>
   );
 }

@@ -1,15 +1,25 @@
-import { useDebunce } from "@/src/hooks/useDebunce";
-import { Ionicons } from "@expo/vector-icons";
-import { Button, SearchField, Separator, Spinner, Typography, useThemeColor } from "heroui-native";
-import { useCallback, useState } from "react";
-import { FlatList, View } from "react-native";
-import { router } from "expo-router";
 import { ScreenWrapper } from "@/src/components/ScreenWrapper";
 import { DoctorCard } from "@/src/features/doctors/components/doctor-card";
 import { DoctorsEmptyState } from "@/src/features/doctors/components/doctors-empty-state";
-import { FilterBottomSheet, type FilterState } from "@/src/features/doctors/components/filter-bottom-sheet";
+import {
+  FilterBottomSheet,
+  type FilterState,
+} from "@/src/features/doctors/components/filter-bottom-sheet";
 import { useDoctors } from "@/src/features/doctors/hooks/use-doctors";
 import { useToggleFavorite } from "@/src/features/favorites/hooks/use-favorites";
+import { useDebunce } from "@/src/hooks/useDebunce";
+import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
+import {
+  Button,
+  SearchField,
+  Separator,
+  Spinner,
+  Typography,
+  useThemeColor,
+} from "heroui-native";
+import { useCallback, useState } from "react";
+import { FlatList, View } from "react-native";
 
 const EMPTY_FILTERS: FilterState = {
   governorateId: undefined,
@@ -19,7 +29,13 @@ const EMPTY_FILTERS: FilterState = {
 };
 
 const hasActiveFilter = (f: FilterState, search: string) =>
-  !!(f.governorateId || f.cityId || f.specializationId || f.gender !== undefined || search);
+  !!(
+    f.governorateId ||
+    f.cityId ||
+    f.specializationId ||
+    f.gender !== undefined ||
+    search
+  );
 
 export default function Doctors() {
   const foreground = useThemeColor("foreground");
@@ -28,7 +44,14 @@ export default function Doctors() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filters, setFilters] = useState<FilterState>(EMPTY_FILTERS);
 
-  const { data, isLoading, isFetching, fetchNextPage, hasNextPage, isFetchingNextPage } = useDoctors({
+  const {
+    data,
+    isLoading,
+    isFetching,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useDoctors({
     name: debouncedSearch,
     governorateId: filters.governorateId,
     cityId: filters.cityId,
@@ -68,7 +91,11 @@ export default function Doctors() {
         <Separator className="mt-3" />
 
         {/* Search */}
-        <SearchField className="mt-3 mb-2" value={searchTerm} onChange={setSearchTerm}>
+        <SearchField
+          className="mt-3 mb-2"
+          value={searchTerm}
+          onChange={setSearchTerm}
+        >
           <SearchField.Group>
             <SearchField.SearchIcon className="left-auto right-3" />
             <SearchField.Input
@@ -98,13 +125,20 @@ export default function Doctors() {
           )}
           ListEmptyComponent={
             isFetching ? null : (
-              <DoctorsEmptyState isFiltered={isFiltered} onClearFilter={handleClearFilter} />
+              <DoctorsEmptyState
+                isFiltered={isFiltered}
+                onClearFilter={handleClearFilter}
+              />
             )
           }
           ListFooterComponent={
-            isFetchingNextPage
-              ? <View className="py-4 items-center"><Spinner /></View>
-              : <View className="h-6" />
+            isFetchingNextPage ? (
+              <View className="py-4 items-center">
+                <Spinner />
+              </View>
+            ) : (
+              <View className="h-6" />
+            )
           }
           contentContainerStyle={{ paddingBottom: 16 }}
         />
