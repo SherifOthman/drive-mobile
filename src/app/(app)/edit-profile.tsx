@@ -64,11 +64,6 @@ export default function EditProfile() {
           fallbackName={data?.fullName}
           onChangeImage={setLocalImage}
         />
-        <AvatarPicker
-          avatarUri={localImage ?? data?.imageUrl ?? undefined}
-          fallbackName={data?.fullName}
-          onChangeImage={setLocalImage}
-        />
 
         <View className="gap-5">
           <Controller

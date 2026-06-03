@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Card, Separator, Typography, useThemeColor } from "heroui-native";
+import { Surface, Typography, useThemeColor } from "heroui-native";
 import { View } from "react-native";
 import { WorkingDayRow } from "./working-day-row";
 import type { BranchDetail } from "../api/doctor-details-api";
@@ -12,33 +12,38 @@ export function BranchCard({ branch }: Props) {
   const [mutedColor] = useThemeColor(["muted"]);
 
   return (
-    <Card variant="secondary">
-      <Card.Body className="p-3 gap-2">
-        {branch.address && (
-          <View className="flex-row-reverse items-center gap-2">
-            <Ionicons name="location-outline" size={14} color={mutedColor} />
-            <Typography.Paragraph type="body-sm" color="muted" className="flex-1 text-right">
-              {branch.address}
-            </Typography.Paragraph>
-          </View>
-        )}
+    <Surface variant="secondary" className="rounded-2xl overflow-hidden">
+      {branch.address && (
+        <View className="flex-row-reverse items-center gap-2 px-4 py-3">
+          <Ionicons name="location-outline" size={14} color={mutedColor} />
+          <Typography.Paragraph type="body-sm" color="muted" className="flex-1 text-right">
+            {branch.address}
+          </Typography.Paragraph>
+        </View>
+      )}
 
-        {branch.phoneNumbers.map((p, i) => (
-          <View key={i} className="flex-row-reverse items-center gap-2">
-            <Ionicons name="call-outline" size={14} color={mutedColor} />
-            <Typography.Paragraph type="body-sm">{p.number}</Typography.Paragraph>
-          </View>
-        ))}
+      {branch.phoneNumbers.map((p, i) => (
+        <View key={i} className="flex-row-reverse items-center gap-2 px-4 py-3">
+          <Ionicons name="call-outline" size={14} color={mutedColor} />
+          <Typography.Paragraph type="body-sm">{p.number}</Typography.Paragraph>
+        </View>
+      ))}
 
-        {branch.workingDays.length > 0 && (
-          <>
-            {(branch.address || branch.phoneNumbers.length > 0) && <Separator className="my-1" />}
-            {branch.workingDays.map((wd) => (
-              <WorkingDayRow key={wd.day} wd={wd} size="sm" />
-            ))}
-          </>
-        )}
-      </Card.Body>
-    </Card>
+      {branch.workingDays.length > 0 && (
+        <>
+          <View className="h-px bg-border mx-4" />
+          {branch.workingDays.map((wd, i) => (
+            <View key={wd.day}>
+              <View className="px-4 py-2.5">
+                <WorkingDayRow wd={wd} size="sm" />
+              </View>
+              {i < branch.workingDays.length - 1 && (
+                <View className="h-px bg-border mx-4" />
+              )}
+            </View>
+          ))}
+        </>
+      )}
+    </Surface>
   );
 }

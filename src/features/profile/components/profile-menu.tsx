@@ -5,6 +5,7 @@ import { View } from "react-native";
 type MenuItem = {
   icon: keyof typeof Ionicons.glyphMap;
   label: string;
+  description?: string;
   onPress?: () => void;
 };
 
@@ -17,41 +18,46 @@ export function ProfileMenu({ menuItems, logoutItem }: Props) {
   const [accent, danger] = useThemeColor(["accent", "danger"]);
 
   return (
-    <>
-      <ListGroup className="w-full">
+    <View className="w-full gap-4">
+      {/* Main menu */}
+      <ListGroup>
         {menuItems.map((item, index) => (
           <View key={index}>
             {index > 0 && <Separator className="mx-4" />}
             <ListGroup.Item onPress={item.onPress}>
-              <ListGroup.ItemSuffix className="rotate-180" />
-              <ListGroup.ItemPrefix></ListGroup.ItemPrefix>
+              {/* Icon badge on the right (RTL — acts as prefix visually) */}
+              <View className="w-9 h-9 rounded-xl bg-accent/10 items-center justify-center">
+                <Ionicons name={item.icon} size={18} color={accent} />
+              </View>
               <ListGroup.ItemContent>
                 <ListGroup.ItemTitle className="text-right">
                   {item.label}
                 </ListGroup.ItemTitle>
+                {item.description && (
+                  <ListGroup.ItemDescription className="text-right">
+                    {item.description}
+                  </ListGroup.ItemDescription>
+                )}
               </ListGroup.ItemContent>
-              <View className="w-9 h-9 rounded-full bg-accent/10 items-center justify-center">
-                <Ionicons name={item.icon} size={18} color={accent} />
-              </View>
+              <ListGroup.ItemSuffix className="rotate-180" />
             </ListGroup.Item>
           </View>
         ))}
       </ListGroup>
 
-      <ListGroup className="w-full">
+      {/* Logout — separate group for visual separation */}
+      <ListGroup>
         <ListGroup.Item onPress={logoutItem.onPress}>
+          <View className="w-9 h-9 rounded-xl bg-danger/10 items-center justify-center">
+            <Ionicons name="log-out-outline" size={18} color={danger} />
+          </View>
           <ListGroup.ItemContent>
             <ListGroup.ItemTitle className="text-danger text-right">
               تسجيل الخروج
             </ListGroup.ItemTitle>
           </ListGroup.ItemContent>
-          <ListGroup.ItemPrefix>
-            <View className="w-9 h-9 rounded-full bg-danger/10 items-center justify-center">
-              <Ionicons name="log-out-outline" size={18} color={danger} />
-            </View>
-          </ListGroup.ItemPrefix>
         </ListGroup.Item>
       </ListGroup>
-    </>
+    </View>
   );
 }

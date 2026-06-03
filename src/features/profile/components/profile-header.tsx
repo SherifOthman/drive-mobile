@@ -1,4 +1,4 @@
-import { Avatar, Chip, Text } from "heroui-native";
+import { Avatar, Chip, Surface, Typography } from "heroui-native";
 import { View } from "react-native";
 
 type Props = {
@@ -8,24 +8,38 @@ type Props = {
 };
 
 export function ProfileHeader({ imageUrl, fullName, email }: Props) {
+  const initial = fullName?.charAt(0) ?? "؟";
+
   return (
-    <View className="items-center mt-4">
-      <View>
-        <Avatar size="lg" className="w-28 h-28 rounded-full">
+    <View className="items-center gap-4 pt-4 pb-2 w-full">
+      {/* Avatar with accent ring */}
+      <View
+        className="p-1 rounded-full bg-accent/15"
+        style={{
+          shadowColor: "#6366f1",
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.2,
+          shadowRadius: 12,
+          elevation: 6,
+        }}
+      >
+        <Avatar size="lg" className="w-24 h-24">
           {imageUrl ? <Avatar.Image source={{ uri: imageUrl }} /> : null}
-          <Avatar.Fallback delayMs={200}>
-            {fullName?.charAt(0) ?? "؟"}
-          </Avatar.Fallback>
+          <Avatar.Fallback delayMs={200}>{initial}</Avatar.Fallback>
         </Avatar>
       </View>
 
-      <Text.Heading type="h3" weight="bold" align="center" className="mt-4">
-        {fullName ?? "المستخدم"}
-      </Text.Heading>
+      <View className="items-center gap-1.5">
+        <Typography.Heading type="h4" weight="bold" align="center">
+          {fullName ?? "المستخدم"}
+        </Typography.Heading>
 
-      <Chip size="md" className="mt-3 px-4" variant="secondary">
-        <Chip.Label className="text-muted text-sm">{email}</Chip.Label>
-      </Chip>
+        <Surface variant="secondary" className="rounded-full px-4 py-1.5">
+          <Typography.Paragraph type="body-sm" color="muted" align="center">
+            {email ?? ""}
+          </Typography.Paragraph>
+        </Surface>
+      </View>
     </View>
   );
 }

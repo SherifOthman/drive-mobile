@@ -11,7 +11,7 @@
   --font-medium: "Cairo-Medium";
   --font-semibold: "Cairo-SemiBold";
 
-  /* Border Radius */
-  --radius: 0.25rem;
-  --field-radius: 0.25rem;
+  /* Border Radius — modern, rounded feel */
+  --radius: 0.75rem;
+  --field-radius: 0.625rem;
 }

@@ -4,6 +4,7 @@ import {
   Card,
   Chip,
   PressableFeedback,
+  Surface,
   Typography,
   useThemeColor,
 } from "heroui-native";
@@ -30,7 +31,7 @@ export function BusinessCard({
   extraInfo,
   className,
 }: BusinessCardProps) {
-  const [dangerColor, mutedColor] = useThemeColor(["danger", "muted"]);
+  const [dangerColor, mutedColor, accentColor] = useThemeColor(["danger", "muted", "accent"]);
 
   const schedule = formatSchedule(
     item.nextWorkingDay,
@@ -43,10 +44,10 @@ export function BusinessCard({
     <PressableFeedback onPress={onPress} animation={false}>
       <PressableFeedback.Scale>
         <Card className={className}>
-          <Card.Body className="gap-2 p-3">
+          <Card.Body className="gap-3 p-4">
 
-            {/* Row 1: avatar + name + open badge */}
-            <View className="flex-row-reverse gap-3">
+            {/* Row 1: avatar + name + chips */}
+            <View className="flex-row-reverse gap-3 items-start">
               <Avatar size="lg">
                 {item.profileImageUrl ? (
                   <Avatar.Image source={{ uri: item.profileImageUrl }} />
@@ -55,14 +56,15 @@ export function BusinessCard({
                 )}
               </Avatar>
 
-              <View className="flex-1 gap-1">
-                <Typography.Paragraph weight="bold" className="text-right">
+              <View className="flex-1 gap-1.5">
+                <Typography.Paragraph weight="bold" className="text-right text-base">
                   {item.name}
                 </Typography.Paragraph>
-                <View className="flex-row-reverse gap-2 flex-wrap">
+                <View className="flex-row-reverse gap-1.5 flex-wrap items-center">
                   {extraChips}
                   {item.isOpen && (
                     <Chip size="sm" variant="soft" color="success">
+                      <View className="w-1.5 h-1.5 rounded-full bg-success mr-0.5" />
                       <Chip.Label>مفتوح</Chip.Label>
                     </Chip>
                   )}
@@ -72,32 +74,31 @@ export function BusinessCard({
 
             {extraInfo}
 
-            {/* Row 2: location (right) | rating (left) */}
-            <View className="flex-row-reverse items-center justify-between">
+            {/* Row 2: location + rating */}
+            <Surface variant="secondary" className="flex-row-reverse items-center justify-between rounded-xl px-3 py-2">
               <View className="flex-row-reverse items-center gap-1">
-                <Ionicons name="location-outline" size={14} color={mutedColor} />
+                <Ionicons name="location-outline" size={13} color={mutedColor} />
                 <Typography.Paragraph type="body-xs" color="muted">
                   {item.governorate}
                 </Typography.Paragraph>
               </View>
               <View className="flex-row-reverse items-center gap-1">
-                <Ionicons name="star" size={12} color="#facc15" />
-                <Typography.Paragraph type="body-xs" weight="semibold" className="text-yellow-500">
+                <Ionicons name="star" size={12} color="#f59e0b" />
+                <Typography.Paragraph type="body-xs" weight="bold" className="text-amber-500">
                   {item.averageRating.toFixed(1)}
                 </Typography.Paragraph>
                 <Typography.Paragraph type="body-xs" color="muted">
                   ({item.totalRatings})
                 </Typography.Paragraph>
               </View>
-            </View>
+            </Surface>
 
-            {/* Row 3: schedule | heart */}
-            <View className="flex-row-reverse items-center justify-between border-t border-border pt-2">
-              <View className="flex-row-reverse items-center gap-1">
-                <Ionicons name="time-outline" size={14} color={mutedColor} />
-                <Typography.Paragraph type="body-xs">{schedule}</Typography.Paragraph>
-              </View>
-              <View style={{ width: 22, height: 22 }} />
+            {/* Row 3: schedule */}
+            <View className="flex-row-reverse items-center gap-1.5">
+              <Ionicons name="time-outline" size={13} color={mutedColor} />
+              <Typography.Paragraph type="body-xs" color="muted">
+                {schedule}
+              </Typography.Paragraph>
             </View>
 
           </Card.Body>
@@ -105,12 +106,12 @@ export function BusinessCard({
       </PressableFeedback.Scale>
       <PressableFeedback.Ripple />
 
-      {/* Heart outside Scale so it doesn't trigger card navigation */}
+      {/* Heart — outside Scale so it doesn't trigger card navigation */}
       {onToggleFavorite && (
         <Pressable
           onPress={onToggleFavorite}
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-          style={{ position: "absolute", bottom: 14, left: 12 }}
+          style={{ position: "absolute", top: 14, left: 14 }}
         >
           <Ionicons
             name={item.isFavorite ? "heart" : "heart-outline"}

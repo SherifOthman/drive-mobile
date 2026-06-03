@@ -1,70 +1,85 @@
 ﻿import { GoogleIcon } from "@/src/features/auth/components/GoogleIcon";
 import { useGoogleLogin } from "@/src/features/auth/hooks/use-google-login";
-import { Button, Spinner, Text, useThemeColor } from "heroui-native";
-import { View } from "react-native";
+import { Alert, Button, Spinner, Surface, Typography, useThemeColor } from "heroui-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
+
+const FEATURES = [
+  { icon: "people-outline" as const,   text: "أطباء، صيدليات، معامل وأشعة" },
+  { icon: "calendar-outline" as const, text: "مواعيد العمل وأوقات الزيارة" },
+  { icon: "star-outline" as const,     text: "تقييمات وتعليقات المرضى"      },
+];
 
 export default function Login() {
   const insets = useSafeAreaInsets();
   const { signIn, isLoading, error } = useGoogleLogin();
-  const [accent, accentForeground] = useThemeColor([
-    "accent",
-    "accent-foreground",
-  ]);
+  const [accent, accentForeground] = useThemeColor(["accent", "accent-foreground"]);
 
   return (
-    <View
+    <Surface
+      variant="default"
       className="bg-background flex-1"
       style={{ paddingTop: insets.top, paddingBottom: insets.bottom }}
     >
-      <View className="flex-1 items-center justify-center px-8 gap-6">
-        <View className="items-center gap-2">
-          <View
-            className="w-20 h-20 rounded-3xl bg-accent items-center justify-center"
+      {/* ── Hero ────────────────────────────────── */}
+      <Surface variant="transparent" className="flex-1 items-center justify-center px-8 gap-8">
+
+        {/* Logo */}
+        <Surface variant="transparent" className="items-center gap-3">
+          <Surface
+            variant="transparent"
+            className="w-24 h-24 rounded-3xl bg-accent items-center justify-center"
             style={{
               shadowColor: accent,
-              shadowOffset: { width: 0, height: 8 },
-              shadowOpacity: 0.35,
-              shadowRadius: 16,
-              elevation: 12,
+              shadowOffset: { width: 0, height: 10 },
+              shadowOpacity: 0.4,
+              shadowRadius: 20,
+              elevation: 14,
             }}
           >
-            <Text style={{ fontSize: 40 }}>🩺</Text>
-          </View>
-          <Text.Heading type="h1" weight="bold" align="center" className="text-foreground mt-2">
-            نبض
-          </Text.Heading>
-          <Text.Paragraph type="body-sm" color="muted" align="center">
-            Pulse
-          </Text.Paragraph>
-        </View>
+            <Typography.Heading type="h1" style={{ fontSize: 48 }}>🩺</Typography.Heading>
+          </Surface>
+          <Surface variant="transparent" className="items-center gap-0.5">
+            <Typography.Heading type="h1" weight="bold" align="center">نبض</Typography.Heading>
+            <Typography.Paragraph type="body-sm" color="muted" align="center">دليلك الصحي الشامل</Typography.Paragraph>
+          </Surface>
+        </Surface>
 
-        <View className="gap-3 w-full mt-4">
-          {[
-            { icon: "👨‍⚕️", text: "أطباء, صيدليات, معامل وأشعة" },
-            { icon: "⏰", text: "مواعيد العمل وأوقات الزيارة" },
-            { icon: "⭐", text: "تقييمات وتعليقات المرضى" },
-          ].map((item, i) => (
-            <View key={i} className="flex-row-reverse items-center gap-3 bg-surface-secondary rounded-2xl px-4 py-3">
-              <Text style={{ fontSize: 22 }}>{item.icon}</Text>
-              <Text.Paragraph type="body-sm" weight="medium" align="end" className="flex-1">
+        {/* Feature list */}
+        <Surface variant="secondary" className="w-full rounded-3xl p-1 gap-1">
+          {FEATURES.map((item, i) => (
+            <Surface key={i} variant="transparent" className="flex-row-reverse items-center gap-3 px-4 py-3 rounded-2xl">
+              <Surface variant="transparent" className="w-9 h-9 rounded-xl bg-accent/10 items-center justify-center">
+                <Ionicons name={item.icon} size={19} color={accent} />
+              </Surface>
+              <Typography.Paragraph type="body-sm" weight="medium" className="flex-1 text-right">
                 {item.text}
-              </Text.Paragraph>
-            </View>
+              </Typography.Paragraph>
+            </Surface>
           ))}
-        </View>
-      </View>
+        </Surface>
 
-      <View className="px-6 pb-8 gap-4">
-        {error && (
-          <View className="bg-danger/10 rounded-2xl px-4 py-3">
-            <Text.Paragraph type="body-sm" align="center" className="text-danger">
-              {error}
-            </Text.Paragraph>
-          </View>
-        )}
+      </Surface>
 
-        <Button variant="primary" size="lg" isDisabled={isLoading} onPress={signIn} className="w-full" feedbackVariant="scale-ripple">
+      {/* ── CTA ─────────────────────────────────── */}
+      <Surface variant="transparent" className="px-6 pb-6 gap-4">
+        {error ? (
+          <Alert status="danger" className="rounded-2xl">
+            <Alert.Indicator />
+            <Alert.Content>
+              <Alert.Description className="text-right">{error}</Alert.Description>
+            </Alert.Content>
+          </Alert>
+        ) : null}
+
+        <Button
+          variant="primary"
+          size="lg"
+          isDisabled={isLoading}
+          onPress={signIn}
+          className="w-full"
+          feedbackVariant="scale-ripple"
+        >
           {isLoading ? (
             <Spinner color={accentForeground} />
           ) : (
@@ -75,10 +90,10 @@ export default function Login() {
           )}
         </Button>
 
-        <Text.Paragraph type="body-xs" color="muted" align="center">
+        <Typography.Paragraph type="body-xs" color="muted" align="center">
           بالمتابعة، أنت توافق على شروط الاستخدام وسياسة الخصوصية
-        </Text.Paragraph>
-      </View>
-    </View>
+        </Typography.Paragraph>
+      </Surface>
+    </Surface>
   );
 }

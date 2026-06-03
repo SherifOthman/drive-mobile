@@ -1,35 +1,32 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { Button, Typography, useThemeColor } from "heroui-native";
-import { View } from "react-native";
+import { Button, Surface, Typography, useThemeColor } from "heroui-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Props = {
   title: string;
   headingType?: "h4" | "h5";
+  /** Optional right-side action slot */
+  rightAction?: React.ReactNode;
 };
 
-export function PageHeader({ title, headingType = "h5" }: Props) {
+export function PageHeader({ title, headingType = "h5", rightAction }: Props) {
   const insets = useSafeAreaInsets();
   const [foreground] = useThemeColor(["foreground"]);
 
   return (
-    <View
-      className="flex-row-reverse items-center px-5 pb-4 border-b border-border"
+    <Surface
+      variant="default"
+      className="flex-row-reverse items-center px-4 pb-3 border-b border-border"
       style={{ paddingTop: insets.top + 12 }}
     >
-      <Typography.Heading type={headingType} weight="bold">
+      <Typography.Heading type={headingType} weight="bold" className="flex-1 text-right px-2">
         {title}
       </Typography.Heading>
-      <View className="flex-1" />
-      <Button
-        variant="ghost"
-        size="sm"
-        isIconOnly
-        onPress={() => router.back()}
-      >
-        <Ionicons name="chevron-back" size={20} color={foreground} />
+      {rightAction ?? null}
+      <Button variant="ghost" size="sm" isIconOnly onPress={() => router.back()}>
+        <Ionicons name="chevron-back" size={22} color={foreground} />
       </Button>
-    </View>
+    </Surface>
   );
 }
