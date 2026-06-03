@@ -1,43 +1,18 @@
 import { api } from "@/src/services/api";
+import type { BusinessListItem, BusinessQuery, PaginatedResponse } from "@/src/types";
 
-export type DoctorResponse = {
-  id: string;
-  name: string;
+/** Doctor-specific list fields on top of BusinessListItem */
+export type DoctorResponse = BusinessListItem & {
   specialization: string;
-  profileImageUrl: string | null;
   visitPrice: number | null;
-  governorate: string;
-  averageRating: number;
-  totalRatings: number;
-  nextWorkingDay: number;
-  startTime: string | null;
-  endTime: string | null;
-  isOpen: boolean;
-  isFavorite: boolean;
 };
 
-export type PaginatedResponse<T> = {
-  items: T[];
-  page: number;
-  pageSize: number;
-  totalCount: number;
-  hasMore: boolean;
-};
-
-export type DoctorsQuery = {
-  governorateId?: string;
-  cityId?: string;
-  name?: string;
-  sortBy?: string;
-  sortDirection?: string;
-  page?: number;
+export type DoctorsQuery = BusinessQuery & {
   gender?: number;
   specializationId?: string;
 };
 
-export const getDoctors = async (query: DoctorsQuery = {}) => {
-  const res = await api.get<PaginatedResponse<DoctorResponse>>("/doctors", {
-    params: query,
-  });
+export const getDoctors = async (query: DoctorsQuery = {}): Promise<PaginatedResponse<DoctorResponse>> => {
+  const res = await api.get<PaginatedResponse<DoctorResponse>>("/doctors", { params: query });
   return res.data;
 };

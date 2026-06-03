@@ -1,11 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-import { getDoctorDetails } from "../api/doctor-details-api";
+import { useBusinessDetails } from "@/src/features/businesses/hooks/use-business-details";
+import type { DoctorDetailsResponse } from "../api/doctor-details-api";
+
+export type { DoctorDetailsResponse };
 
 export function useDoctorDetails(id: string) {
-  return useQuery({
-    queryKey: ["doctor", id],
-    queryFn: () => getDoctorDetails(id),
-    staleTime: 60_000,
-    enabled: !!id,
-  });
+  return useBusinessDetails<DoctorDetailsResponse>("/doctors", "doctor", id);
 }

@@ -10,6 +10,7 @@ type Props = {
   isError?: boolean;
   isScrollable?: boolean;
   isTabPage?: boolean;
+  hasHeader?: boolean;  // true when PageHeader is used — skips top safe area padding
   loadingView?: ReactNode;
   emptyView?: ReactNode;
   errorView?: ReactNode;
@@ -24,6 +25,7 @@ export function ScreenWrapper({
   isError,
   isScrollable = true,
   isTabPage = false,
+  hasHeader = false,
   loadingView,
   emptyView,
   errorView,
@@ -33,9 +35,10 @@ export function ScreenWrapper({
   const insets = useSafeAreaInsets();
   const [muted] = useThemeColor(["muted"]);
 
-  const topPadding = insets.top + (isTabPage ? 16 : 12);
+  // hasHeader: PageHeader already handles top inset — no extra top padding needed
+  const topPadding = hasHeader ? 0 : insets.top + (isTabPage ? 16 : 12);
   const bottomPaddingVal =
-    bottomPadding ?? (isTabPage ? insets.bottom + 100 : insets.bottom + 40);
+    bottomPadding ?? (isTabPage ? insets.bottom + 100 : insets.bottom + 24);
 
   const stateView = isLoading
     ? (loadingView ?? (
