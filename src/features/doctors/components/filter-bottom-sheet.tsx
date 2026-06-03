@@ -1,3 +1,4 @@
+import { ScrollableSelectContent } from "@/src/components/ScrollableSelectContent";
 import {
   BottomSheet,
   Button,
@@ -7,7 +8,7 @@ import {
   Select,
 } from "heroui-native";
 import { useCallback, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { View } from "react-native";
 import {
   useCities,
   useGovernorates,
@@ -27,6 +28,18 @@ type Props = {
   filters: FilterState;
   onApply: (filters: FilterState) => void;
 };
+
+// RTL-aware trigger with visible border in both light and dark mode.
+// field-border is transparent by default in the HeroUI theme (light uses shadow,
+// dark has nothing). Adding border-border makes it explicit and theme-aware.
+function SelectTrigger({ placeholder }: { placeholder: string }) {
+  return (
+    <Select.Trigger className="flex-row-reverse border border-border rounded-xl px-3 py-2.5">
+      <Select.Value placeholder={placeholder} className="text-right flex-1" />
+      <Select.TriggerIndicator />
+    </Select.Trigger>
+  );
+}
 
 export function FilterBottomSheet({
   isOpen,
@@ -94,25 +107,17 @@ export function FilterBottomSheet({
                 setCityId(undefined);
               }}
             >
-              <Select.Trigger className="flex-row-reverse">
-                <Select.Value
-                  placeholder="المحافظة"
-                  className="text-right flex-1"
-                />
-                <Select.TriggerIndicator />
-              </Select.Trigger>
+              <SelectTrigger placeholder="المحافظة" />
               <Select.Portal>
                 <Select.Overlay />
-                <Select.Content presentation="bottom-sheet" snapPoints={["95%"]}>
-                  <ScrollView>
-                    {governorates?.map((g) => (
-                      <Select.Item key={g.id} value={g.id} label={g.name}>
-                        <Select.ItemIndicator />
-                        <Select.ItemLabel />
-                      </Select.Item>
-                    ))}
-                  </ScrollView>
-                </Select.Content>
+                <ScrollableSelectContent>
+                  {governorates?.map((g) => (
+                    <Select.Item key={g.id} value={g.id} label={g.name}>
+                      <Select.ItemIndicator />
+                      <Select.ItemLabel className="text-right" />
+                    </Select.Item>
+                  ))}
+                </ScrollableSelectContent>
               </Select.Portal>
             </Select>
 
@@ -127,25 +132,17 @@ export function FilterBottomSheet({
               onValueChange={(opt) => setCityId(opt?.value)}
               isDisabled={!governorateId}
             >
-              <Select.Trigger className="flex-row-reverse">
-                <Select.Value
-                  placeholder="المدينة"
-                  className="text-right flex-1"
-                />
-                <Select.TriggerIndicator />
-              </Select.Trigger>
+              <SelectTrigger placeholder="المدينة" />
               <Select.Portal>
                 <Select.Overlay />
-                <Select.Content presentation="bottom-sheet" snapPoints={["95%"]}>
-                  <ScrollView>
-                    {cities?.map((c) => (
-                      <Select.Item key={c.id} value={c.id} label={c.name}>
-                        <Select.ItemIndicator />
-                        <Select.ItemLabel />
-                      </Select.Item>
-                    ))}
-                  </ScrollView>
-                </Select.Content>
+                <ScrollableSelectContent>
+                  {cities?.map((c) => (
+                    <Select.Item key={c.id} value={c.id} label={c.name}>
+                      <Select.ItemIndicator />
+                      <Select.ItemLabel className="text-right" />
+                    </Select.Item>
+                  ))}
+                </ScrollableSelectContent>
               </Select.Portal>
             </Select>
 
@@ -162,29 +159,21 @@ export function FilterBottomSheet({
               }
               onValueChange={(opt) => setSpecializationId(opt?.value)}
             >
-              <Select.Trigger className="flex-row-reverse">
-                <Select.Value
-                  placeholder="التخصص"
-                  className="text-right flex-1"
-                />
-                <Select.TriggerIndicator />
-              </Select.Trigger>
+              <SelectTrigger placeholder="التخصص" />
               <Select.Portal>
                 <Select.Overlay />
-                <Select.Content presentation="bottom-sheet" snapPoints={["95%"]}>
-                  <ScrollView>
-                    {specializations?.map((s) => (
-                      <Select.Item key={s.id} value={s.id} label={s.name}>
-                        <Select.ItemIndicator />
-                        <Select.ItemLabel />
-                      </Select.Item>
-                    ))}
-                  </ScrollView>
-                </Select.Content>
+                <ScrollableSelectContent>
+                  {specializations?.map((s) => (
+                    <Select.Item key={s.id} value={s.id} label={s.name}>
+                      <Select.ItemIndicator />
+                      <Select.ItemLabel className="text-right" />
+                    </Select.Item>
+                  ))}
+                </ScrollableSelectContent>
               </Select.Portal>
             </Select>
 
-            {/* Gender — RadioGroup instead of manual toggle buttons */}
+            {/* Gender */}
             <RadioGroup
               value={gender?.toString()}
               onValueChange={(val) =>
