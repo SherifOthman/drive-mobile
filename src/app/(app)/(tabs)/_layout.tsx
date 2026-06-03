@@ -79,6 +79,33 @@ export default function TabsLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="pharmacies"
+        options={{
+          title: "الصيدليات",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name={focused ? "medkit" : "medkit-outline"} size={24} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="labs"
+        options={{
+          title: "المعامل",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name={focused ? "flask" : "flask-outline"} size={24} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="radiology"
+        options={{
+          title: "الأشعة",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name={focused ? "scan" : "scan-outline"} size={24} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

@@ -13,6 +13,9 @@ export default function AppLayout() {
     >
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="doctor/[id]" />
+      <Stack.Screen name="pharmacy/[id]" />
+      <Stack.Screen name="lab/[id]" />
+      <Stack.Screen name="radiology/[id]" />
       <Stack.Screen name="settings" />
       <Stack.Screen name="edit-profile" />
     </Stack>
