@@ -95,7 +95,7 @@ export function DoctorCard({
           <Ionicons name="time-outline" size={14} color="#888" />
           <Typography.Paragraph type="body-xs">{schedule}</Typography.Paragraph>
         </View>
-        <Pressable onPress={onToggleFavorite} className="p-2">
+        <Pressable onPress={onToggleFavorite} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
           <Ionicons
             name={isFavorite ? "heart" : "heart-outline"}
             size={22}
