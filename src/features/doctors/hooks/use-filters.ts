@@ -1,34 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
-import { api } from "@/src/services/api";
-
-export type FilterOption = {
-  id: string;
-  name: string;
-};
-
-export type CityOption = FilterOption & {
-  governorateId: string;
-};
+import { getGovernorates, getCities, getSpecializations } from "../api/filters-api";
 
 export function useGovernorates() {
   return useQuery({
     queryKey: ["governorates"],
-    queryFn: async (): Promise<FilterOption[]> => {
-      const res = await api.get<FilterOption[]>("/governorates");
-      return res.data;
-    },
+    queryFn: getGovernorates,
   });
 }
 
 export function useCities(governorateId: string | undefined) {
   return useQuery({
     queryKey: ["cities", governorateId],
-    queryFn: async (): Promise<CityOption[]> => {
-      const res = await api.get<CityOption[]>("/cities", {
-        params: { governorateId },
-      });
-      return res.data;
-    },
+    queryFn: () => getCities(governorateId!),
     enabled: !!governorateId,
   });
 }
@@ -36,9 +19,6 @@ export function useCities(governorateId: string | undefined) {
 export function useSpecializations() {
   return useQuery({
     queryKey: ["specializations"],
-    queryFn: async (): Promise<FilterOption[]> => {
-      const res = await api.get<FilterOption[]>("/specializations");
-      return res.data;
-    },
+    queryFn: getSpecializations,
   });
 }
