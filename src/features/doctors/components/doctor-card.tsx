@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Avatar, Button, Card, Chip, PressableFeedback, Typography, useThemeColor } from "heroui-native";
-import { View } from "react-native";
+import { Avatar, Card, Chip, PressableFeedback, Typography, useThemeColor } from "heroui-native";
+import { Pressable, View } from "react-native";
 import { formatSchedule, nameInitial } from "@/src/utils/arabic";
 import type { DoctorResponse } from "../api/doctors-api";
 
@@ -25,9 +25,9 @@ export function DoctorCard({ doctor, onToggleFavorite, onPress, className }: Doc
     <PressableFeedback onPress={onPress} animation={false}>
       <PressableFeedback.Scale>
         <Card className={className}>
-          <Card.Body className="gap-3 p-3">
+          <Card.Body className="gap-2 p-3">
 
-            {/* Top row: avatar + info */}
+            {/* Row 1: avatar + name + specialization + open badge */}
             <View className="flex-row-reverse gap-3">
               <Avatar size="lg">
                 {doctor.profileImageUrl ? (
@@ -41,8 +41,7 @@ export function DoctorCard({ doctor, onToggleFavorite, onPress, className }: Doc
                 <Typography.Paragraph weight="bold" className="text-right">
                   {doctor.name}
                 </Typography.Paragraph>
-
-                <View className="flex-row-reverse gap-2 items-center">
+                <View className="flex-row-reverse gap-2">
                   <Chip size="sm" variant="secondary">
                     <Chip.Label className="text-right">{doctor.specialization}</Chip.Label>
                   </Chip>
@@ -55,9 +54,9 @@ export function DoctorCard({ doctor, onToggleFavorite, onPress, className }: Doc
               </View>
             </View>
 
-            {/* Bottom row: location + price + rating + heart */}
-            <View className="flex-row-reverse items-center justify-between border-t border-border pt-2">
-              <View className="flex-row-reverse items-center gap-3">
+            {/* Row 2: location + price (right) | rating (left) */}
+            <View className="flex-row-reverse items-center justify-between">
+              <View className="flex-row-reverse items-center gap-2">
                 <View className="flex-row-reverse items-center gap-1">
                   <Ionicons name="location-outline" size={14} color={mutedColor} />
                   <Typography.Paragraph type="body-xs" color="muted">{doctor.governorate}</Typography.Paragraph>
@@ -70,36 +69,36 @@ export function DoctorCard({ doctor, onToggleFavorite, onPress, className }: Doc
                     </Typography.Paragraph>
                   </View>
                 )}
-                <View className="flex-row-reverse items-center gap-1">
-                  <Ionicons name="star" size={12} color="#facc15" />
-                  <Typography.Paragraph type="body-xs" weight="semibold" className="text-yellow-500">
-                    {doctor.averageRating.toFixed(1)}
-                  </Typography.Paragraph>
-                  <Typography.Paragraph type="body-xs" color="muted">({doctor.totalRatings})</Typography.Paragraph>
-                </View>
               </View>
+              <View className="flex-row-reverse items-center gap-1">
+                <Ionicons name="star" size={12} color="#facc15" />
+                <Typography.Paragraph type="body-xs" weight="semibold" className="text-yellow-500">
+                  {doctor.averageRating.toFixed(1)}
+                </Typography.Paragraph>
+                <Typography.Paragraph type="body-xs" color="muted">
+                  ({doctor.totalRatings ?? 0})
+                </Typography.Paragraph>
+              </View>
+            </View>
 
-              <Button
-                variant="ghost"
-                size="sm"
-                isIconOnly
-                onPress={(e) => { e.stopPropagation?.(); onToggleFavorite(); }}
+            {/* Row 3: schedule (right) | heart button (left) — border top */}
+            <View className="flex-row-reverse items-center justify-between border-t border-border pt-2">
+              <View className="flex-row-reverse items-center gap-1">
+                <Ionicons name="time-outline" size={14} color={mutedColor} />
+                <Typography.Paragraph type="body-xs">{schedule}</Typography.Paragraph>
+              </View>
+              {/* stopPropagation prevents this press from triggering PressableFeedback.onPress */}
+              <Pressable
+                onPress={(e) => { e.stopPropagation(); onToggleFavorite(); }}
+                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
               >
                 <Ionicons
                   name={doctor.isFavorite ? "heart" : "heart-outline"}
                   size={22}
                   color={doctor.isFavorite ? dangerColor : mutedColor}
                 />
-              </Button>
+              </Pressable>
             </View>
-
-            {/* Schedule */}
-            {schedule ? (
-              <View className="flex-row-reverse items-center gap-1">
-                <Ionicons name="time-outline" size={14} color={mutedColor} />
-                <Typography.Paragraph type="body-xs">{schedule}</Typography.Paragraph>
-              </View>
-            ) : null}
 
           </Card.Body>
         </Card>
