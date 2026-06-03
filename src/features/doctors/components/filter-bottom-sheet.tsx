@@ -80,7 +80,7 @@ export function FilterBottomSheet({
 
             {/* Governorate */}
             <Select
-              presentation="dialog"
+              presentation="bottom-sheet"
               value={
                 selectedGovernorate
                   ? {
@@ -101,22 +101,19 @@ export function FilterBottomSheet({
                 />
                 <Select.TriggerIndicator />
               </Select.Trigger>
-              <Select.Portal>
-                <Select.Overlay />
-                <Select.Content presentation="dialog" classNames={{ content: "max-h-80" }}>
-                  {governorates?.map((g) => (
-                    <Select.Item key={g.id} value={g.id} label={g.name}>
-                      <Select.ItemIndicator />
-                      <Select.ItemLabel />
-                    </Select.Item>
-                  ))}
-                </Select.Content>
-              </Select.Portal>
+              <Select.Content presentation="bottom-sheet">
+                {governorates?.map((g) => (
+                  <Select.Item key={g.id} value={g.id} label={g.name}>
+                    <Select.ItemIndicator />
+                    <Select.ItemLabel />
+                  </Select.Item>
+                ))}
+              </Select.Content>
             </Select>
 
             {/* City */}
             <Select
-              presentation="dialog"
+              presentation="bottom-sheet"
               value={
                 selectedCity
                   ? { value: selectedCity.id, label: selectedCity.name }
@@ -132,22 +129,19 @@ export function FilterBottomSheet({
                 />
                 <Select.TriggerIndicator />
               </Select.Trigger>
-              <Select.Portal>
-                <Select.Overlay />
-                <Select.Content presentation="dialog" classNames={{ content: "max-h-80" }}>
-                  {cities?.map((c) => (
-                    <Select.Item key={c.id} value={c.id} label={c.name}>
-                      <Select.ItemIndicator />
-                      <Select.ItemLabel />
-                    </Select.Item>
-                  ))}
-                </Select.Content>
-              </Select.Portal>
+              <Select.Content presentation="bottom-sheet">
+                {cities?.map((c) => (
+                  <Select.Item key={c.id} value={c.id} label={c.name}>
+                    <Select.ItemIndicator />
+                    <Select.ItemLabel />
+                  </Select.Item>
+                ))}
+              </Select.Content>
             </Select>
 
             {/* Specialization */}
             <Select
-              presentation="dialog"
+              presentation="bottom-sheet"
               value={
                 selectedSpecialization
                   ? {
@@ -165,17 +159,14 @@ export function FilterBottomSheet({
                 />
                 <Select.TriggerIndicator />
               </Select.Trigger>
-              <Select.Portal>
-                <Select.Overlay />
-                <Select.Content presentation="dialog" classNames={{ content: "max-h-80" }}>
-                  {specializations?.map((s) => (
-                    <Select.Item key={s.id} value={s.id} label={s.name}>
-                      <Select.ItemIndicator />
-                      <Select.ItemLabel />
-                    </Select.Item>
-                  ))}
-                </Select.Content>
-              </Select.Portal>
+              <Select.Content presentation="bottom-sheet">
+                {specializations?.map((s) => (
+                  <Select.Item key={s.id} value={s.id} label={s.name}>
+                    <Select.ItemIndicator />
+                    <Select.ItemLabel />
+                  </Select.Item>
+                ))}
+              </Select.Content>
             </Select>
 
             {/* Gender — RadioGroup instead of manual toggle buttons */}
