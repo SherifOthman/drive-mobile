@@ -13,6 +13,7 @@ export type DoctorResponse = {
   startTime: string | null;
   endTime: string | null;
   isOpen: boolean;
+  isFavorite: boolean;
 };
 
 export type PaginatedResponse<T> = {

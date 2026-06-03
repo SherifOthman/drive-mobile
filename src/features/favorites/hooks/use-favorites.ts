@@ -28,29 +28,25 @@ export function useToggleFavorite() {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: async (businessId: string) => {
-      const current = qc.getQueryData<FavoritesData>(["favorites"]);
-      const isFav = current?.favorites?.some((d) => d.id === businessId);
-      if (isFav) {
+    mutationFn: async ({ businessId, isFavorite }: { businessId: string; isFavorite: boolean }) => {
+      if (isFavorite) {
         await api.delete(`/favorites/${businessId}`);
+        return { businessId, wasFavorite: true };
       } else {
         await api.post(`/favorites/${businessId}`);
+        return { businessId, wasFavorite: false };
       }
-      return { businessId, wasFavorite: !!isFav };
     },
-    onMutate: async (businessId) => {
+    onMutate: async ({ businessId, isFavorite }) => {
       await qc.cancelQueries({ queryKey: ["favorites"] });
       const prev = qc.getQueryData<FavoritesData>(["favorites"]);
 
       qc.setQueryData<FavoritesData>(["favorites"], (old) => {
         if (!old) return { favorites: [] };
         const favorites = old.favorites ?? [];
-        const isFav = favorites.some((d) => d.id === businessId);
-        if (isFav) {
-          // Remove optimistically
+        if (isFavorite) {
           return { favorites: favorites.filter((d) => d.id !== businessId) };
         } else {
-          // Add placeholder — name/image filled in after refetch
           return { favorites: [...favorites, { id: businessId, name: "", profileImageUrl: null, averageRating: 0, totalRatings: 0 }] };
         }
       });
@@ -61,8 +57,8 @@ export function useToggleFavorite() {
       if (context?.prev) qc.setQueryData(["favorites"], context.prev);
     },
     onSuccess: ({ wasFavorite }) => {
-      // After adding, refetch to replace placeholder with real data
       if (!wasFavorite) qc.invalidateQueries({ queryKey: ["favorites"] });
+      qc.invalidateQueries({ queryKey: ["doctors"] });
     },
   });
 }
