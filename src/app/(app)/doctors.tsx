@@ -108,7 +108,7 @@ export default function Doctors() {
             <DoctorCard
               doctor={item}
               isFavorite={item.isFavorite}
-              onToggleFavorite={() => toggleFav.mutate({ businessId: item.id, isFavorite: item.isFavorite })}
+              onToggleFavorite={() => toggleFav.mutate(item.id)}
               className="mt-4"
             />
           )}
