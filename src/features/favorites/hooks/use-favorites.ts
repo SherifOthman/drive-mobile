@@ -1,5 +1,5 @@
-import { api } from "@/src/services/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toggleFavorite } from "../api/favorites-api";
 
 export type FavoriteListItem = {
   id: string;
@@ -13,8 +13,7 @@ export function useToggleFavorite() {
   const qc = useQueryClient();
 
   return useMutation({
-    mutationFn: (businessId: string) =>
-      api.post(`/favorites/${businessId}/toggle`),
+    mutationFn: toggleFavorite,
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["doctors"] });
     },
