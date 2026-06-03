@@ -103,11 +103,11 @@ export function FilterBottomSheet({
               </Select.Trigger>
               <Select.Portal>
                 <Select.Overlay />
-                <Select.Content presentation="dialog">
+                <Select.Content presentation="dialog" isSwipeable={false} classNames={{ content: "max-h-80" }}>
                   {governorates?.map((g) => (
                     <Select.Item key={g.id} value={g.id} label={g.name}>
                       <Select.ItemIndicator />
-                      <Select.ItemLabel />
+                      <Select.ItemLabel className="text-right" />
                     </Select.Item>
                   ))}
                 </Select.Content>
@@ -134,11 +134,11 @@ export function FilterBottomSheet({
               </Select.Trigger>
               <Select.Portal>
                 <Select.Overlay />
-                <Select.Content presentation="dialog">
+                <Select.Content presentation="dialog" isSwipeable={false} classNames={{ content: "max-h-80" }}>
                   {cities?.map((c) => (
                     <Select.Item key={c.id} value={c.id} label={c.name}>
                       <Select.ItemIndicator />
-                      <Select.ItemLabel />
+                      <Select.ItemLabel className="text-right" />
                     </Select.Item>
                   ))}
                 </Select.Content>
@@ -167,11 +167,11 @@ export function FilterBottomSheet({
               </Select.Trigger>
               <Select.Portal>
                 <Select.Overlay />
-                <Select.Content presentation="dialog">
+                <Select.Content presentation="dialog" isSwipeable={false} classNames={{ content: "max-h-80" }}>
                   {specializations?.map((s) => (
                     <Select.Item key={s.id} value={s.id} label={s.name}>
                       <Select.ItemIndicator />
-                      <Select.ItemLabel />
+                      <Select.ItemLabel className="text-right" />
                     </Select.Item>
                   ))}
                 </Select.Content>
