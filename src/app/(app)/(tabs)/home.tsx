@@ -1,4 +1,4 @@
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useMe } from "@/src/features/profile/hooks/use-profile";
 import { GreetingHeader } from "@/src/features/home/components/greeting-header";

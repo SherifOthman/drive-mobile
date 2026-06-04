@@ -1,9 +1,9 @@
 import axios from "axios";
-import { API_URL } from "../config/constants";
+import { env } from "../config/env";
 import { useAuthStore } from "../features/auth/store/auth-store";
 
 export const api = axios.create({
-  baseURL: API_URL || "http://localhost:5170",
+  baseURL: env.apiUrl || "http://localhost:5170",
 });
 
 let refreshPromise: Promise<void> | null = null;
