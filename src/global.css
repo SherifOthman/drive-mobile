@@ -1,0 +1,17 @@
+@import "tailwindcss";
+@import "uniwind";
+
+@import "heroui-native/styles";
+
+@source '../node_modules/heroui-native/lib';
+
+@theme {
+  --font-sans: "Cairo";
+  --font-bold: "Cairo-Bold";
+  --font-medium: "Cairo-Medium";
+  --font-semibold: "Cairo-SemiBold";
+
+  /* Border Radius */
+  --radius: 0.375rem;
+  --field-radius: 0.25rem;
+}
