@@ -1,10 +1,10 @@
 import { api } from "@/src/api";
 
-const BASE = api.defaults.baseURL || "http://localhost:5170";
+const SERVER_ORIGIN = "http://localhost:5170";
 
 function toAbsolute(url: string | null): string | null {
   if (!url || !url.startsWith("/uploads/")) return url;
-  return `${BASE}${url}`;
+  return `${SERVER_ORIGIN}${url}`;
 }
 
 export type User = {

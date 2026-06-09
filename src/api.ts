@@ -3,7 +3,7 @@ import { env } from "./env";
 import { useAuthStore } from "./features/auth/auth-store";
 
 export const api = axios.create({
-  baseURL: env.apiUrl || "http://localhost:5170",
+  baseURL: env.apiUrl || "http://localhost:5170/mobile",
 });
 
 let refreshPromise: Promise<void> | null = null;
@@ -40,8 +40,7 @@ api.interceptors.response.use(
         throw new Error("No refresh token available");
       }
 
-      const res = await axios.post(`${api.defaults.baseURL}/auth/refresh-token`, {
-        accessToken: store.accessToken,
+      const res = await axios.post(`${api.defaults.baseURL}/auth/refresh`, {
         refreshToken: store.refreshToken,
       });
 
