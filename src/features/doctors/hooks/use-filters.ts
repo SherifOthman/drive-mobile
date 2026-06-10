@@ -16,9 +16,9 @@ export function useCities(governorateId: string | undefined, businessType?: numb
   });
 }
 
-export function useSpecializations() {
+export function useSpecializations(businessType?: number) {
   return useQuery({
-    queryKey: ["specializations"],
-    queryFn: getSpecializations,
+    queryKey: ["specializations", businessType],
+    queryFn: () => getSpecializations(businessType),
   });
 }

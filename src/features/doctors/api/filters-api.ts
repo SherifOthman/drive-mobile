@@ -30,7 +30,9 @@ export const getCities = async (
   return res.data;
 };
 
-export const getSpecializations = async (): Promise<FilterOption[]> => {
-  const res = await api.get<FilterOption[]>("/specializations");
+export const getSpecializations = async (businessType?: number): Promise<FilterOption[]> => {
+  const res = await api.get<FilterOption[]>("/specializations", {
+    params: businessType != null ? { businessType } : undefined,
+  });
   return res.data;
 };

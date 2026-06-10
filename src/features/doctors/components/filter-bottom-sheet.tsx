@@ -56,7 +56,7 @@ export function FilterBottomSheet({
 
   const { data: governorates } = useGovernorates(1); // Doctor
   const { data: cities } = useCities(governorateId, 1);
-  const { data: specializations } = useSpecializations();
+  const { data: specializations } = useSpecializations(1); // Doctor
 
   const selectedGovernorate = governorates?.find((g) => g.id === governorateId);
   const selectedCity = cities?.find((c) => c.id === cityId);
