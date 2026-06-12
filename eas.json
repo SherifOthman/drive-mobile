@@ -9,7 +9,15 @@
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://pulse-api.runasp.net",
+        "EXPO_PUBLIC_BASE_URL": "https://pulse-api.runasp.net",
+        "EXPO_PUBLIC_SCHEME": "pulse",
+        "EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID": "537064981983-25h6bbq5l7ik4ees3c7sdr7dorgo0741.apps.googleusercontent.com",
+        "EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID": "537064981983-8h8ji2t445j6tf4bds0bn3v85qhikpgn.apps.googleusercontent.com",
+        "EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID": "537064981983-7srmecjuqtvmv70ma7rlvvmqm17ecc3d.apps.googleusercontent.com"
+      }
     },
     "production": {
       "autoIncrement": true
