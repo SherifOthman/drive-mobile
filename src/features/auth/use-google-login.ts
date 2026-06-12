@@ -27,7 +27,9 @@ export function useGoogleLogin() {
       const signInResult = await GoogleSignin.signIn();
 
       if (signInResult.type !== "success" || !signInResult.data.idToken) {
-        throw new Error("Sign in failed or no ID token received");
+        throw new Error(
+          `Sign in failed: type=${signInResult.type}, hasToken=${!!( signInResult as any)?.data?.idToken}`,
+        );
       }
 
       const res = await loginWithGoogle(signInResult.data.idToken);
@@ -41,8 +43,12 @@ export function useGoogleLogin() {
       } else if (err.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
         setError("Google Play Services not available or needs update");
       } else {
-        console.error("Sign in error:", err);
-        setError(err?.response?.data?.message || err?.message || "Login failed");
+        console.error("Sign in error — code:", err?.code, "message:", err?.message, err);
+        setError(
+          err?.code
+            ? `Google Sign-In error (code ${err.code}): ${err.message}`
+            : err?.response?.data?.message || err?.message || "Login failed",
+        );
       }
     } finally {
       setIsLoading(false);
